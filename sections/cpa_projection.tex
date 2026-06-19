@@ -1,0 +1,112 @@
+% ============================================================================
+% SECTION 5: CPA AS BAYESIAN PROJECTION DYNAMICS
+% ============================================================================
+\section{Correlation Power Analysis as Bayesian Projection Dynamics}\label{sec:cpa}
+
+\subsection{Leakage model}\label{subsec:adv-model}
+
+We consider the standard non-profiled CPA setting.  The adversary knows $S$,
+observes plaintexts $a_1,\ldots,a_n$ uniformly drawn from $\B{s}$, and obtains
+leakage measurements
+\begin{equation}\label{eq:leakage-model}
+  W_i = f(S(a_i\oplus k^*)) + \varepsilon_i,
+  \qquad \varepsilon_i \sim \mathcal N(0,\sigma^2),
+\end{equation}
+where $k^*$ is the true key and $f:\B{s}\to\R$ is the leakage model.  In the
+numerical experiments we take $f = \HW$.
+
+\subsection{Bayesian update as a mixture projection}\label{subsec:bayes-m}
+
+\begin{theorem}[CPA posterior update as $m$-projection]\label{thm:cpa-m-proj}
+  Let $q_{i-1}\in\Delta_{2^s-1}^{\circ}$ be the prior belief over keys before
+  observing $(a_i,W_i)$.  The posterior
+  \begin{equation}\label{eq:bayes-update}
+    q_i(k) = \frac{q_{i-1}(k)\,p(W_i\mid a_i,k)}
+                 {\sum_{h\in\B{s}} q_{i-1}(h)\,p(W_i\mid a_i,h)}
+  \end{equation}
+  is the $m$-projection of the joint prior-likelihood distribution onto the
+  affine constraint defined by the observation, marginalised to the key
+  coordinate.
+\end{theorem}
+
+\begin{proof}
+  The joint distribution before conditioning is $q_{i-1}(k)p(a_i)p(W_i\mid a_i,k)$.
+  Conditioning on the observed value imposes an affine constraint.  Minimising
+  the Kullback‑Leibler divergence under that constraint yields the conditional
+  distribution, whose key marginal is exactly~\eqref{eq:bayes-update}.
+\end{proof}
+
+The exact S‑box distributions $P_k$ lie on the boundary of the simplex, but
+the belief trajectory $q_0,q_1,\ldots,q_n$ stays in the interior of the belief
+simplex as long as the prior has full support and the Gaussian likelihood is
+positive.  Hence CPA can be studied as a regular trajectory on $(Q,g_F^{(Q)})$.
+
+\subsection{Per-trace signal information}\label{subsec:per-trace}
+
+\begin{definition}[Per-trace signal information]\label{def:per-trace}
+  For a leakage model $f$ and noise variance $\sigma^2$, define
+  \begin{equation}\label{eq:per-trace-def}
+    I_S(f,\sigma) = \sigma^{-2}
+    \operatorname{Var}_{a\sim\mathrm{Unif}(\B{s})}\bigl[f(S(a\oplus k^*))\bigr].
+  \end{equation}
+  When $S$ is bijective, this quantity does not depend on $k^*$.
+\end{definition}
+
+\begin{proposition}[Hamming-weight specialization]\label{thm:per-trace}
+  For $f = \HW$ and a bijective $S$,
+  \begin{equation}\label{eq:hw-info}
+    I_S(\HW,\sigma) = \frac{s}{4\sigma^2}.
+  \end{equation}
+  In particular, for 4‑bit bijective S‑boxes, $I_S(\HW,\sigma)=1/\sigma^2$.
+\end{proposition}
+
+\begin{proof}
+  Bijectivity of $S$ together with the uniformity of $a\oplus k^*$ implies that
+  $S(a\oplus k^*)$ is uniform over $\B{s}$.  The Hamming weight of a uniform
+  $s$-bit word follows a binomial distribution $\mathrm{Binomial}(s,1/2)$, whose
+  variance is $s/4$.
+\end{proof}
+
+\subsection{Pairwise log-likelihood increments}\label{subsec:pairwise-llr}
+
+For a competing key $k \neq k^*$, the per‑trace squared separation is
+\begin{equation}\label{eq:delta-k}
+  \Delta(k,k^*) = \frac{1}{2^s} \sum_{a\in\B{s}}
+  \bigl(f(S(a\oplus k^*)) - f(S(a\oplus k))\bigr)^2.
+\end{equation}
+
+\begin{proposition}[Expected pairwise log‑Bayes gain]\label{prop:pairwise-gain}
+  Under the Gaussian leakage model,
+  \begin{equation}\label{eq:llr-gain}
+    \mathbb E\left[\log\frac{p(W\mid A,k^*)}{p(W\mid A,k)}\right]
+    = \frac{\Delta(k,k^*)}{2\sigma^2},
+  \end{equation}
+  where the expectation is over $A$ (uniform) and $W$ conditioned on $A$ and $k^*$.
+\end{proposition}
+
+\begin{proof}
+  For a fixed plaintext $a$, the two likelihoods are Gaussian with the same
+  variance $\sigma^2$ and means $\mu_*(a)=f(S(a\oplus k^*))$,
+  $\mu_k(a)=f(S(a\oplus k))$.  The Kullback‑Leibler divergence between two
+  univariate Gaussians with equal variance is $(\mu_*(a)-\mu_k(a))^2/(2\sigma^2)$.
+  Averaging over $a$ gives the result.
+\end{proof}
+
+The worst‑case pairwise gap
+\begin{equation}\label{eq:gamma-gap}
+  \Gamma_S(f,\sigma) = \min_{k\neq k^*} \frac{\Delta(k,k^*)}{2\sigma^2}
+\end{equation}
+provides a rigorous likelihood‑separation measure, distinct from $I_S(f,\sigma)$
+in general.
+
+\subsection{Model-based sample-complexity estimate}\label{subsec:convergence}
+
+Starting from a uniform prior, the initial key uncertainty equals $s\log2$ nats.
+A first‑order information estimate then yields
+\begin{equation}\label{eq:sample-estimate}
+  n_{\mathrm{est}} \approx \frac{s\log2}{I_S(f,\sigma)}.
+\end{equation}
+For 4‑bit Hamming‑weight leakage, $n_{\mathrm{est}}\approx 4\log2\,\sigma^2$.
+This is a heuristic leakage‑rate estimate.  A more rigorous bound follows from
+the pairwise gap $\Gamma_S(f,\sigma)$: the expected log‑posterior odds against
+any fixed wrong key grow at rate at least $\Gamma_S(f,\sigma)$.

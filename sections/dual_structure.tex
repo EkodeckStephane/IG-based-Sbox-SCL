@@ -1,0 +1,129 @@
+% ============================================================================
+% SECTION 4: DUAL STRUCTURE AND BELIEF GEOMETRY
+% ============================================================================
+\section{Dual Structure, Boundary Limits, and Belief Geometry}\label{sec:dual}
+
+\subsection{Regular dual flatness of the interior family}\label{subsec:dual-flat}
+
+\begin{theorem}[Regular dual flatness]\label{thm:dual-flat-walsh}
+The Walsh exponential family~\eqref{eq:walsh-exp} is a regular minimal
+exponential family on $\mathcal X$.  Its interior carries the standard dually
+flat information-geometric structure: natural coordinates $\theta$ are
+e-affine, expectation coordinates $\eta$ are m-affine, the log-partition
+function $\psi$ is the e-potential, and its Legendre dual is
+$\varphi(\eta)=-H(p_\eta)$.
+\end{theorem}
+
+\begin{proof}
+The natural parameter space is the open set $\R^{2^{2s}-1}$.  The sufficient
+statistics are bounded, so the partition function is finite and smooth for all
+$\theta$.  Minimality follows from the orthogonality and linear independence of
+the nonconstant Walsh characters together with the constant character.  The
+standard theorem for regular minimal exponential families then gives dual
+flatness and the Legendre correspondence~\cite{amari2000methods,ay2017information}.
+\end{proof}
+
+\begin{remark}[Boundary discipline]
+Theorem~\ref{thm:dual-flat-walsh} applies to full-support distributions only.
+The exact key distributions $P_k$ lie in the closure.  Statements about
+geodesics, Christoffel symbols, Bregman identities, or curvature at $P_k$ are
+therefore meaningful only after regularization or after being rephrased as
+finite boundary covariance statements.
+\end{remark}
+
+\subsection{KL divergence between exact key distributions}\label{subsec:kl-keys}
+
+\begin{proposition}[Support separation]\label{prop:kl-keys}
+If $S$ is bijective and $k\neq k'$, then
+\begin{equation}\label{eq:kl-infinite}
+  \operatorname{supp}(P_k)\cap\operatorname{supp}(P_{k'})=\varnothing,
+  \qquad
+  \KL(P_k\|P_{k'})=+\infty.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+If $(a,b)$ belongs to both supports, then
+$S(a\oplus k)=b=S(a\oplus k')$.  Since $S$ is injective,
+$a\oplus k=a\oplus k'$, hence $k=k'$, a contradiction.  Thus $P_{k'}$ assigns
+zero probability to every point in the support of $P_k$ when $k\neq k'$, which
+implies infinite KL divergence.
+\end{proof}
+
+\begin{remark}[No finite Bregman identity at singular endpoints]
+The usual equality between KL divergence and the Bregman divergence of the dual
+potential is an interior statement.  For $P_k$ and $P_{k'}$ with disjoint
+supports, one may study
+$\KL(P_k^\varepsilon\|P_{k'}^\varepsilon)$ and then let
+$\varepsilon\downarrow0$, but the limiting divergence is infinite.  We therefore
+do not use finite Pythagorean decompositions directly between distinct exact
+key distributions.
+\end{remark}
+
+\subsection{Mixtures induced by key beliefs}\label{subsec:belief-mixture}
+
+Let $Q=\Delta_{2^s-1}^{\circ}$ be the interior of the simplex over keys.  A
+belief $q\in Q$ induces a distribution on input-output pairs
+\begin{equation}\label{eq:mixture-belief}
+  \bar P_q(a,b)=\sum_{k\in\B{s}}q(k)P_k(a,b)
+  =2^{-s}\sum_{k\in\B{s}}q(k)\mathbf 1[b=S(a\oplus k)].
+\end{equation}
+If $q$ has full support, then $\bar P_q$ has full support on $\mathcal X$.
+
+\begin{proposition}[Walsh representation of belief mixtures]\label{prop:belief-walsh}
+Let
+\[
+  \widehat q(\alpha)=\sum_{k\in\B{s}}q(k)(-1)^{\alpha\cdot k}.
+\]
+Then
+\begin{equation}\label{eq:belief-walsh}
+  \bar P_q(a,b)
+  =2^{-2s}\sum_{\alpha,\beta\in\B{s}}
+  \widehat q(\alpha)\widehat S(\alpha,\beta)
+  (-1)^{\alpha\cdot a\oplus\beta\cdot b}.
+\end{equation}
+In particular, the uniform belief induces the uniform distribution on
+$\mathcal X$.
+\end{proposition}
+
+\begin{proof}
+Apply Walsh inversion to the indicator
+$\mathbf 1[b=S(a\oplus k)]$ and sum over $k$ with weights $q(k)$.  For uniform
+$q$, $\widehat q(\alpha)=\mathbf 1[\alpha=0]$, and
+$\widehat S(0,0)=2^s$ while $\widehat S(0,\beta)=0$ for $\beta\neq0$ because
+$S$ is bijective.
+\end{proof}
+
+\subsection{Fisher--Rao geometry of the belief simplex}\label{subsec:belief-geometry}
+
+\begin{definition}[Belief simplex metric]\label{def:belief-simplex}
+For $q\in Q$ and tangent vectors $u,v$ with $\sum_k u_k=\sum_k v_k=0$, the
+Fisher--Rao metric is
+\begin{equation}\label{eq:belief-fisher}
+  g_q^{(Q)}(u,v)=\sum_{k\in\B{s}}\frac{u_kv_k}{q(k)}.
+\end{equation}
+\end{definition}
+
+Under the square-root map $q\mapsto(\sqrt{q(k)})_k$, this metric is the round
+metric on a sphere of radius $2$.  Therefore
+\begin{equation}\label{eq:hellinger-angle}
+  d_F(q,q')=2\arccos\left(\sum_{k\in\B{s}}\sqrt{q(k)q'(k)}\right).
+\end{equation}
+For distinct point-mass limits, $d_F(\delta_k,\delta_{k'})=\pi$.  This is a
+statement about the belief simplex, not about geodesics between the singular
+input-output distributions $P_k$ and $P_{k'}$.
+
+\subsection{Pythagorean identities}\label{subsec:pythagorean}
+
+The generalized Pythagorean theorem is used in the following restricted sense.
+For full-support distributions in the regular Walsh exponential family, the
+standard identity
+\begin{equation}\label{eq:pythagorean-interior}
+  \KL(P_A\|P_C)=\KL(P_A\|P_B)+\KL(P_B\|P_C)
+\end{equation}
+holds whenever the e-geodesic from $A$ to $B$ is orthogonal to the m-geodesic
+from $B$ to $C$.  In the CPA setting, the relevant full-support object is the
+posterior belief $q_n\in Q$ as long as the prior has full support and the
+Gaussian likelihood is strictly positive.  This is why projection statements in
+Section~\ref{sec:cpa} are made on $Q$ or on regularized joint distributions,
+not directly on disjoint-support $P_k$ endpoints.

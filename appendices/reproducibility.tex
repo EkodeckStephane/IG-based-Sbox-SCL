@@ -1,0 +1,105 @@
+% ============================================================================
+% APPENDIX A: REPRODUCIBILITY DETAILS
+% ============================================================================
+\appendix
+\section{Reproducibility Details}\label{app:reproducibility}
+
+This appendix records the computational protocol used for the numerical claims
+in Section~\ref{sec:numerical}.  The computations are intentionally small and
+exhaustive: for $s=4$, all input values, all key hypotheses, all Walsh
+coordinates, and all active coordinate planes are enumerated.
+
+\subsection{Software environment}
+
+The distributed scripts use Python 3 and standard numerical
+packages.  The core dependencies are \texttt{numpy} for exact finite-array
+enumeration and linear algebra, and \texttt{matplotlib} for figure generation.
+No randomized optimization, training procedure, or stochastic sampling is used
+for the reported tables.  When a random 4-bit bijection is used in
+\texttt{verify\_curvature.py}, the script fixes the pseudorandom seed explicitly.
+
+\subsection{Commands}
+
+The main numerical outputs can be regenerated with the following commands from
+the project root:
+\begin{verbatim}
+python gen_figures.py
+python compute_curvatures.py
+python verify_curvature.py
+\end{verbatim}
+The first command regenerates the Walsh-spectrum and local key-separation
+figures.  The second command constructs the boundary covariance matrix,
+projects onto the active eigenspace, computes the projected third cumulant
+contractions, and evaluates the curvature diagnostic.  The third command is a
+sanity check for the value $K=-1/4$ on PRESENT and on an additional fixed
+random bijection.
+
+\subsection{Arithmetic and precision}
+
+The Walsh coefficients, boundary covariance entries, and third cumulant entries
+are obtained from finite sums over $\{0,1\}^4$.  These quantities are therefore
+integer or rational before diagonalization.  The eigenspace projection and the
+curvature table are evaluated in floating-point arithmetic after the exact
+finite sums have been constructed.  The reported curvature values are therefore
+reported as reproducible numerical diagnostics for the tested S-boxes.
+
+\subsection{Sign conventions}
+
+The Walsh transform convention is
+\[
+  \widehat S(\alpha,\beta)=\sum_{a\in\{0,1\}^s}
+  (-1)^{\alpha\cdot a\oplus\beta\cdot S(a)}.
+\]
+The active-eigenspace curvature diagnostic uses the convention in
+\eqref{eq:curvature-diagnostic}.  Changing the Riemann tensor sign convention
+would change the sign of all reported sectional curvature values; the scripts
+and the paper use the same convention.
+
+\subsection{Reproducibility coverage}
+
+The computational protocol covers the quantities reported in the paper: Walsh
+spectra, boundary covariance matrices, active ranks/eigenvalues, local spectral
+key-separation proxies, Hamming-weight leakage descriptors, and the projected
+active-eigenspace curvature diagnostic for the tested 4-bit S-boxes.
+
+\section*{Declarations}
+
+\subsection*{Availability of data and materials}
+
+The datasets supporting the conclusions of this article are included within the
+article and its additional file.  The additional file
+\texttt{supplementary\_material.zip} contains the scripts used to regenerate
+the numerical tables and figures.
+
+Software information: project name, Boundary Information Geometry for S-box
+Side-Channel Leakage; project home page,
+\url{https://github.com/EkodeckStephane/IG-based-Sbox-SCL}; archived version,
+not applicable before repository release or DOI assignment;
+operating system, platform independent; programming language, Python 3; other
+requirements, \texttt{numpy} and \texttt{matplotlib}; license, not specified;
+restrictions to use by non-academics, none beyond the repository license status.
+
+\subsection*{Competing interests}
+
+The authors declare that they have no competing interests.
+
+\subsection*{Funding}
+
+No specific funding was received for this work.
+
+\subsection*{Authors' contributions}
+
+Conceptualization and methodology: S.G.R.E. and S.A.E.; formal analysis:
+S.G.R.E., S.A.E., P.R.M.A., and R.N.; software and reproducible computations:
+S.G.R.E.; validation: S.A.E., P.R.M.A., and R.N.; supervision and project
+administration: R.N.; writing--original draft: S.G.R.E.; writing--review and
+editing: S.G.R.E., S.A.E., P.R.M.A., and R.N.  All authors read and approved
+the final manuscript.
+
+\subsection*{Acknowledgements}
+
+Not applicable.
+
+\subsection*{Authors' information}
+
+Not applicable.

@@ -1,0 +1,169 @@
+% ============================================================================
+% SECTION 2: BACKGROUND
+% ============================================================================
+\section{Background}\label{sec:background}
+
+\subsection{S-boxes and the Walsh--Hadamard transform}
+
+An \emph{$s$-bit S-box} is a bijection $S : \B{s} \to \B{s}$.
+The $i$-th output bit is a Boolean function $S_i : \B{s}\to\{0,1\}$.
+
+\begin{definition}[Walsh--Hadamard Transform]\label{def:wht}
+The Walsh--Hadamard transform (WHT) of $S$ at $(\alpha,\beta)\in\B{s}\times\B{s}$ is:
+\begin{equation}\label{eq:wht}
+  \WHT{S}(\alpha,\beta)
+  = \sum_{a\in\B{s}} (-1)^{\alpha\cdot a\,\oplus\,\beta\cdot S(a)}
+  \;\in\; \{-2^s,\ldots,+2^s\},
+  \qquad 2\mid\WHT{S}(\alpha,\beta).
+\end{equation}
+By convention $\WHT{S}(0,0)=2^s$.
+\end{definition}
+
+The WHT encodes the two fundamental cryptographic properties of $S$:
+\begin{itemize}
+  \item \textbf{Nonlinearity}:
+    $\NL(S) = 2^{s-1} - \tfrac{1}{2}\max_{(\alpha,\beta)\neq(0,0)}|\WHT{S}(\alpha,\beta)|$.
+  \item \textbf{Differential uniformity}:
+    $\DU(S) = \max_{\Delta_{\mathrm{in}}\neq 0,\,\Delta_{\mathrm{out}}}
+    \bigl|\{a : S(a)\oplus S(a\oplus\Delta_{\mathrm{in}})=\Delta_{\mathrm{out}}\}\bigr|$.
+\end{itemize}
+
+The \emph{Linear Approximation Table} (LAT) entry is $\LAT_S(\alpha,\beta) = \WHT{S}(\alpha,\beta)/2$.
+For any S-box, Parseval's identity gives:
+\begin{equation}\label{eq:parseval}
+  \sum_{(\alpha,\beta)\in\B{s}\times\B{s}} \WHT{S}(\alpha,\beta)^2 = 2^{2s}\cdot 2^s = 2^{3s}.
+\end{equation}
+
+\begin{example}[PRESENT S-box]\label{ex:present}
+The PRESENT-80 S-box ($s=4$) is the hexadecimal table
+$S = \texttt{[C,5,6,B,9,0,A,D,3,E,F,8,4,7,1,2]}$.
+Its nonlinearity is $\NL(S)=4$ and differential uniformity $\DU(S)=4$.
+\end{example}
+
+\subsubsection{Remark on 4-bit S-box classification}
+
+The 4-bit case is small enough that strong classification results are
+available.  In particular, optimal 4-bit S-boxes have been studied up to the
+standard equivalence relations used for vectorial Boolean functions
+\cite{leander2007classification}.  Consequently, the numerical examples in
+Section~\ref{sec:numerical} should not be interpreted as a new classification
+of PRESENT, GIFT, or SKINNY.  Their role is narrower: they provide reproducible
+side-channel diagnostics for widely used lightweight S-boxes and illustrate
+which information-geometric quantities are forced by bijectivity or by common
+Walsh spectra.
+
+\subsection{Information geometry: essentials}\label{subsec:ig}
+
+We collect the minimal background from
+Amari and Nagaoka~\cite{amari2000methods}
+and Ay et al.~\cite{ay2017information} required in the sequel.
+
+\subsubsection{Statistical manifolds and the Fisher metric}
+
+Let $\mathcal{X}$ be a finite set with $|\mathcal{X}|=N$.
+The \emph{probability simplex} is
+$\Delta_{N-1} = \{p\in\R^N : p_x\geq 0,\; \sum_x p_x = 1\}$.
+Its interior $\mathring{\Delta}_{N-1}$ is an $(N-1)$-dimensional manifold.
+
+\begin{definition}[Fisher--Rao Metric]\label{def:fisher-rao}
+The \emph{Fisher--Rao metric} on $\mathring{\Delta}_{N-1}$ at $p$ is the positive
+definite bilinear form
+\begin{equation}\label{eq:fisher-rao}
+  g_p(u,v) = \sum_{x\in\mathcal{X}} \frac{u_x\,v_x}{p_x},
+  \qquad u,v\in T_p\mathring{\Delta}_{N-1} = \Bigl\{w\in\R^N : \sum_x w_x = 0\Bigr\}.
+\end{equation}
+\end{definition}
+
+By Chentsov's theorem \cite{chentsov1982statistical}, $g_F$ is the unique
+Riemannian metric on $\mathring{\Delta}_{N-1}$ (up to a positive constant) that is
+invariant under sufficient statistics, making it the canonical statistical
+distance.
+
+\subsubsection{Exponential families as flat submanifolds}
+
+\begin{definition}[Exponential Family]\label{def:exp-family}
+Given functions $T_1,\ldots,T_d : \mathcal{X}\to\R$ (the \emph{sufficient statistics}),
+the \emph{exponential family} $\mathcal{E}$ is:
+\begin{equation}\label{eq:exp-family}
+  p(x;\theta) = \exp\!\Bigl(\sum_{i=1}^d \theta_i T_i(x) - \psi(\theta)\Bigr),
+  \quad \theta\in\Theta\subseteq\R^d,
+\end{equation}
+where $\psi(\theta)=\log\sum_x\exp(\sum_i\theta_i T_i(x))$ is the log-partition
+function.
+\end{definition}
+
+The natural parameters $\theta_i$ and the expectation parameters
+$\eta_i = \Esym_\theta[T_i(X)]$ are related by $\eta = \nabla\psi(\theta)$
+(the bijection is guaranteed when the family is minimal and regular).
+
+\begin{theorem}[Dually Flat Structure, \cite{amari2000methods}]
+\label{thm:dual-flat}
+Every regular minimal exponential family $\mathcal{E}$ is a dually flat submanifold
+of $\mathring{\Delta}_{N-1}$: the $e$-connection (exponential connection) is flat
+in natural parameters $\theta$, and the $m$-connection (mixture connection)
+is flat in expectation parameters $\eta$.
+The generalised Pythagorean theorem holds: if $P_A,P_B,P_C\in\mathcal{E}$ and the
+$e$-geodesic from $A$ to $B$ is $g_F$-orthogonal to the $m$-geodesic from $B$
+to $C$, then
+\begin{equation}\label{eq:pythagoras}
+  \KL(P_A\|P_C) = \KL(P_A\|P_B) + \KL(P_B\|P_C).
+\end{equation}
+\end{theorem}
+
+\subsubsection{Mixture projection and Bayesian inference}
+
+\begin{definition}[$m$-Projection]\label{def:m-proj}
+Given $p\in\mathring{\Delta}_{N-1}$ and a closed $m$-flat submanifold
+$\mathcal{M}\subseteq\mathring{\Delta}_{N-1}$, the \emph{$m$-projection} of $p$ onto $\mathcal{M}$ is:
+\begin{equation}\label{eq:m-proj}
+  \Pi_\mathcal{M}^{(m)}(p) = \argmin_{q\in\mathcal{M}} \KL(q\|p).
+\end{equation}
+\end{definition}
+
+The following classical result (see \cite{amari2000methods}, Chapter~3)
+is central to Section~\ref{sec:cpa}:
+
+\begin{proposition}[Bayesian Update as $m$-Projection]\label{prop:bayes-m}
+Let $p(x,y) = p(x)\,p(y|x)$ be a joint distribution on $\mathcal{X}\times\mathcal{Y}$.
+After observing $y=y_0$, the posterior $p(x|y_0)$ is the $m$-projection of
+the joint $p$ onto the submanifold
+$\mathcal{M}_{y_0} = \{q\in\Delta : q(y)=0 \text{ for } y\neq y_0\}$,
+restricted to the $x$-marginal.
+\end{proposition}
+
+\subsubsection{The LDPC analogy: Ikeda-Tanaka-Amari (2004)}
+
+Ikeda, Tanaka, and Amari \cite{ikeda2004information} develop a complete
+information-geometric framework for LDPC and turbo codes.
+They model the joint distribution over a binary codeword $x\in\{-1,+1\}^N$ as:
+\begin{equation}\label{eq:ikeda}
+  p(x;\theta,v) = \exp\!\Bigl(\theta\cdot x + \sum_r v_r\,c_r(x) - \psi\Bigr),
+\end{equation}
+where $c_r(x) = \prod_{i\in r} x_i$ are parity check functions and $v_r$ the
+constraint weights.
+They show: (i) the $e$/$m$ dual structure is exact; (ii) Belief Propagation
+decoding corresponds to iterated $e$/$m$-projections; (iii) curvature of the
+statistical manifold controls decoding convergence.
+
+In the present paper, the parity functions $c_r(x)$ are replaced by the
+Walsh--Hadamard characters $\chi_{\alpha\beta}(a,b)$ of the S-box, and LDPC
+decoding is replaced by CPA key recovery.
+Table~\ref{tab:analogy} summarises the correspondence.
+
+\begin{table}[htbp]
+\centering
+\caption{Structural analogy between the LDPC framework of Ikeda-Tanaka-Amari
+(2004) and the S-box framework of this paper.}\label{tab:analogy}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Ikeda-Tanaka-Amari (LDPC) & This paper (S-box) \\
+\midrule
+Codeword $x\in\{-1,+1\}^N$ & Input-output pair $(a,b)\in\{0,1\}^{2s}$ \\
+Parity check $c_r(x)=\prod_{i\in r} x_i$ & Walsh character $\chi_{\alpha\beta}(a,b)=(-1)^{\alpha\cdot a\oplus\beta\cdot b}$ \\
+Channel log-likelihood $\theta_i$ & Key log-likelihood ratio $\log(q_k/q_{k'})$ \\
+Parity constraint weight $v_r$ & Walsh spectrum value $\WHT{S}(\alpha,\beta)$ \\
+Belief Propagation decoding & CPA key recovery \\
+Decoding convergence rate & Per-trace Fisher information $I_S(\sigma)$ \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,121 @@
+% ============================================================================
+% SECTION 6: ACTIVE-EIGENSPACE CURVATURE
+% ============================================================================
+\section{Active-Eigenspace Curvature: Computation and Status}\label{sec:curvature}
+
+\subsection{What curvature is being computed}\label{subsec:curvature-status}
+
+The regular Walsh exponential family is dually flat with respect to the e- and
+m-connections, but its Levi--Civita curvature is not automatically zero.  At
+exact key distributions $P_k$, however, the ordinary Riemannian tensor of the
+full-support family is not directly defined because $P_k$ lies on the boundary.
+This section therefore uses the following restricted object.
+
+\begin{definition}[Active covariance eigenspace]\label{def:active-eigenspace}
+Let $\mathcal I^{\partial}(k)$ be the boundary covariance matrix in
+Definition~\ref{def:boundary-fisher}.  Its active eigenspace is the span of the
+eigenvectors with strictly positive eigenvalues.  Curvature computations below
+are performed after projecting the covariance and third cumulant tensors to this
+active eigenspace.
+\end{definition}
+
+The resulting values are curvature diagnostics of the limiting regularized
+geometry obtained from the active covariance eigenspace.  The finite orbit
+$\{P_k\}$ itself is discrete and is used here through its induced boundary
+covariance and cumulant tensors.
+
+\subsection{Universal rank and eigenvalues of the boundary covariance}\label{subsec:rank-eigen}
+
+\begin{theorem}[Rank and active eigenvalues]\label{thm:active-rank}
+For any bijection $S:\B{s}\to\B{s}$, the boundary covariance matrix
+$\mathcal I^{\partial}(k)$ has rank $2^s-1$.  Its nonzero eigenvalues are all
+$2^s$ when the feature coordinates are the unnormalised nonconstant Walsh
+characters used in Definition~\ref{def:walsh-exp}.
+\end{theorem}
+
+\begin{proof}
+Let $N=2^s$ and index rows by $a\in\B{s}$.  Let $X$ be the $N\times(2^{2s}-1)$
+feature matrix with entries
+$X_{a,(\alpha,\beta)}=(-1)^{\alpha\cdot a\oplus\beta\cdot S(a\oplus k)}$ for
+$(\alpha,
+\beta)\neq(0,0)$.  The boundary covariance is
+$N^{-1}X^\top H X$, where $H=I_N-N^{-1}\mathbf 1\mathbf 1^\top$ centers over the
+support graph.  The nonzero eigenvalues of $N^{-1}X^\top H X$ equal those of
+$N^{-1}HXX^\top H$.  For $a,a'\in\B{s}$,
+\[
+ (XX^\top)_{a,a'}=
+ \sum_{(\alpha,\beta)\neq(0,0)}
+ (-1)^{\alpha\cdot(a\oplus a')\oplus
+ \beta\cdot(S(a\oplus k)\oplus S(a'\oplus k))}
+ =N^2\mathbf 1[a=a']-1,
+\]
+because $S$ is injective.  Hence
+$N^{-1}HXX^\top H=N^{-1}H(N^2I_N-\mathbf 1\mathbf 1^\top)H=NH$.
+The matrix $H$ has rank $N-1$ and eigenvalue $1$ on the centered subspace.
+Therefore the active eigenvalues are all $N=2^s$.
+\end{proof}
+
+\subsection{Third cumulants and curvature protocol}\label{subsec:third-cum}
+
+Let
+\begin{equation}\label{eq:third-cumulant}
+  C^{\partial}_{ijk}(k)=
+  \mathbb E_{P_k}\left[(T_i-\eta_i)(T_j-\eta_j)(T_k-\eta_k)\right]
+\end{equation}
+be the boundary third cumulant tensor.  Since products of Walsh characters are
+again Walsh characters, every entry can be computed exactly from the WHT of
+$S$ and the key-translation rule.  If $U$ is an orthonormal basis of the active
+eigenspace and $\lambda_a=2^s$ are the active covariance eigenvalues, the
+projected tensor is
+\begin{equation}\label{eq:projected-cumulant}
+  \widetilde C_{abc}=\sum_{i,j,\ell}U_{ia}U_{jb}U_{\ell c}C^{\partial}_{ij\ell}.
+\end{equation}
+The Levi--Civita curvature diagnostic used in the experiments is then computed
+with the standard dually-flat formula
+\begin{equation}\label{eq:curvature-diagnostic}
+  R_{abab}=\frac14\sum_c
+  \frac{\widetilde C_{aac}\widetilde C_{bbc}-\widetilde C_{abc}^2}{\lambda_c},
+  \qquad
+  K_{ab}=\frac{R_{abab}}{\lambda_a\lambda_b},\quad a<b.
+\end{equation}
+Both verification scripts implement
+Equation~\eqref{eq:curvature-diagnostic} directly.
+
+\subsection{Empirical constant-curvature finding}\label{subsec:empirical-curv}
+
+\begin{proposition}[Reproducible 4-bit curvature observation]\label{prop:empirical-curv}
+For the PRESENT, GIFT, and SKINNY 4-bit S-boxes, the projected active-eigenspace
+curvature diagnostic~\eqref{eq:curvature-diagnostic} gives
+\begin{equation}\label{eq:empirical-minus-quarter}
+  K_{ab}=-\frac14
+\end{equation}
+for all $\binom{15}{2}=105$ active coordinate planes, up to numerical precision
+in the provided scripts.
+\end{proposition}
+
+\begin{proof}[Verification protocol]
+The computation is reproducible from the repository scripts.  The scripts build
+the WHT table, construct $\mathcal I^{\partial}$, diagonalize its active
+15-dimensional eigenspace, project the third cumulant tensor, and evaluate
+\eqref{eq:curvature-diagnostic}.  The reported value is stable across the three
+tested S-boxes and an additional random 4-bit bijection in
+\texttt{verify\_curvature.py}.
+
+These reproducible computations suggest the following conjecture: for bijective
+S-boxes, the active Fisher subspace associated with the Walsh boundary
+covariance form has constant sectional curvature $K=-1/4$, under the curvature
+convention and projection procedure used in this work.  A symbolic proof, or a
+characterization of the precise hypotheses under which the conjecture holds, is
+left as an open problem.
+\end{proof}
+
+
+
+\subsection{Relation to the belief simplex}\label{subsec:curvature-belief}
+
+The belief simplex $Q=\Delta_{2^s-1}^{\circ}$ with Fisher--Rao metric is
+isometric, via the square-root embedding, to a sphere of radius $2$ and hence
+has constant sectional curvature $+1/4$.  The observed value $-1/4$ in the
+active boundary covariance diagnostic suggests a sign-dual phenomenon between
+the posterior belief geometry and the limiting keyed S-box covariance geometry,
+which is recorded here as part of the open geometric structure of the model.

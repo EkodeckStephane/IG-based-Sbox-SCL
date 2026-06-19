@@ -1,0 +1,20 @@
+# LaTeX build artefacts
+*.aux
+*.blg
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.fls
+*.fdb_latexmk
+
+# Python/cache artefacts
+__pycache__/
+*.py[cod]
+
+# Downloaded template package, kept out of the research repository
+springer-template/
+springer-template.zip
+
+# Previous IEEE submission copy used only for metadata extraction
+IEEE TIT/

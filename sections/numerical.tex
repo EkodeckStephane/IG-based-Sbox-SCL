@@ -1,0 +1,195 @@
+% ============================================================================
+% SECTION 7: NUMERICAL COMPUTATIONS
+% ============================================================================
+\section{Reproducible Security Diagnostics}\label{sec:numerical}
+
+The computations in this section are not intended to classify 4-bit S-boxes or
+to benchmark full cipher attacks.  They serve two narrower purposes.  First,
+they verify the exact boundary covariance and active-eigenspace formulas on
+standard lightweight S-boxes.  Second, they separate quantities that are
+structural invariants from quantities that can influence CPA discrimination
+between key hypotheses.
+
+\subsection{Target S-boxes}\label{subsec:sboxes}
+
+We evaluate the 4-bit bijective S-boxes used in PRESENT, GIFT, and SKINNY:
+\begin{align*}
+S_{\mathrm{PRESENT}}&=[C,5,6,B,9,0,A,D,3,E,F,8,4,7,1,2],\\
+S_{\mathrm{GIFT}}&=[1,A,4,C,6,F,3,9,2,D,B,7,5,0,8,E],\\
+S_{\mathrm{SKINNY}}&=[C,6,9,0,1,A,2,B,3,8,5,D,4,E,7,F].
+\end{align*}
+These examples are useful because they are widely used in lightweight
+cryptography and because exhaustive enumeration over all inputs, masks, and
+key hypotheses is possible.
+
+\subsection{Walsh spectra and boundary covariance}\label{subsec:wht-spectra}
+
+For each S-box we compute the full WHT table
+\[
+  \widehat S(\alpha,\beta)=\sum_{a\in\B{4}}
+  (-1)^{\alpha\cdot a\oplus\beta\cdot S(a)}.
+\]
+The three tested S-boxes have the same absolute Walsh-coefficient distribution
+over nonzero masks:
+\[
+  \#|\widehat S|=0:123,\qquad
+  \#|\widehat S|=4:96,\qquad
+  \#|\widehat S|=8:36.
+\]
+Therefore any diagnostic depending only on the Walsh amplitudes must coincide
+for these three examples.  This is an expected consequence of the spectral
+data, not a new distinguishing property.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig1_wht_spectra.pdf}
+\caption{Walsh spectra. The plotted Walsh tables show the same amplitude
+profile for PRESENT, GIFT, and SKINNY, which explains why purely
+amplitude-based diagnostics coincide for these examples.}
+\label{fig:wht-spectra}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.74\textwidth]{fig2_wht_histogram.pdf}
+\caption{Walsh amplitude distribution. The histogram records the shared counts
+of absolute Walsh coefficients over nonzero masks for the three tested S-boxes.}
+\label{fig:wht-histogram}
+\end{figure}
+
+The boundary covariance matrix is built from Proposition~\ref{thm:fim}.  For
+$s=4$ it is a $255\times255$ positive semidefinite matrix.  Consistent with
+Theorem~\ref{thm:active-rank}, all three matrices have rank $15$ and active
+eigenvalues equal to $16$ up to numerical precision.
+
+\begin{table}[t]
+\centering
+\caption{Boundary covariance structure for the tested 4-bit bijections.}
+\label{tab:cov-rank}
+\begin{tabular}{lccc}
+\toprule
+S-box & Matrix size & Rank & Active eigenvalues \\
+\midrule
+PRESENT & $255\times255$ & $15$ & $16$ repeated $15$ times \\
+GIFT    & $255\times255$ & $15$ & $16$ repeated $15$ times \\
+SKINNY  & $255\times255$ & $15$ & $16$ repeated $15$ times \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Local spectral separation}\label{subsec:fr-distances}
+
+Using~\eqref{eq:fr-local}, we compute local diagonal Walsh/Fisher separation
+proxies between key hypotheses.  This value is not the exact Fisher--Rao
+distance between singular distributions.  It is a local covariance-weighted
+coordinate displacement.  The key-translation rule implies that the value
+depends only on the key difference $k\oplus k'$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.8\textwidth]{fig3_fr_distance_matrix.pdf}
+\caption{Local key-separation proxy. The matrix visualises the
+covariance-weighted Walsh displacement between key hypotheses and should be
+read as a local diagnostic, not as an exact distance between singular laws.}
+\label{fig:local-distance}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Interpretation of the key-separation quantities.}
+\label{tab:distance-status}
+\begin{tabular}{ll}
+\toprule
+Quantity & Status \\
+\midrule
+$\KL(P_k\|P_{k'})$ for $k\neq k'$ & Infinite, because supports are disjoint \\
+$d_F(\delta_k,\delta_{k'})$ on the belief simplex & Exactly $\pi$ \\
+$d_{\mathrm{loc}}^2(k,k')$ in~\eqref{eq:fr-local} & Local Walsh/Fisher covariance proxy \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{CPA leakage gaps}\label{subsec:pairwise-gap-numerical}
+
+For bijective 4-bit S-boxes and uniform inputs, the scalar Hamming-weight
+variance in Proposition~\ref{thm:per-trace} is always
+\[
+  I_S(\HW,\sigma)=\frac{1}{\sigma^2}.
+\]
+This scalar is a baseline leakage descriptor and cannot distinguish PRESENT,
+GIFT, and SKINNY.  Pairwise gaps
+\[
+  \Delta(\delta)=\frac1{16}\sum_{a\in\B{4}}
+  \bigl(\HW(S(a))-\HW(S(a\oplus\delta))\bigr)^2,
+  \qquad \delta\neq0,
+\]
+are more informative for CPA because the expected log-Bayes gain against a
+wrong key with difference $\delta$ is $\Delta(\delta)/(2\sigma^2)$.
+
+\begin{table}[t]
+\centering
+\caption{Pairwise Hamming-weight leakage gaps over nonzero key differences.}
+\label{tab:pairwise-gaps}
+\begin{tabular}{lccc}
+\toprule
+S-box & $\min_{\delta\neq0}\Delta(\delta)$ &
+$\max_{\delta\neq0}\Delta(\delta)$ &
+$\frac1{15}\sum_{\delta\neq0}\Delta(\delta)$ \\
+\midrule
+PRESENT & $1$ & $7/2$ & $32/15$ \\
+GIFT    & $5/4$ & $7/2$ & $32/15$ \\
+SKINNY  & $1$ & $3$   & $32/15$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:pairwise-gaps} shows why the scalar variance descriptor should
+not be overinterpreted: all three S-boxes have the same average pairwise gap,
+but the worst and best key-difference cases vary.  These pairwise gaps are the
+quantities that enter expected posterior-odds growth in the Gaussian leakage
+model.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.74\textwidth]{fig4_per_trace_info.pdf}
+\caption{Per-trace leakage baseline. The scalar Hamming-weight variance is the
+same for all bijective 4-bit S-boxes under uniform inputs, so CPA discrimination
+must be interpreted through pairwise leakage gaps rather than this baseline
+alone.}
+\label{fig:per-trace-info}
+\end{figure}
+
+\subsection{Active-eigenspace curvature}\label{subsec:curv-numerical}
+
+The curvature diagnostic of Section~\ref{sec:curvature} is evaluated in the
+15-dimensional active eigenspace of the boundary covariance matrix.  The result
+is constant for all coordinate planes in the tested cases.
+
+\begin{table}[t]
+\centering
+\caption{Projected active-eigenspace curvature diagnostic for the tested 4-bit S-boxes.}
+\label{tab:curvatures}
+\begin{tabular}{lcccc}
+\toprule
+S-box & Active dimension & Planes & Min $K$ & Max $K$ \\
+\midrule
+PRESENT & $15$ & $105$ & $-0.25$ & $-0.25$ \\
+GIFT    & $15$ & $105$ & $-0.25$ & $-0.25$ \\
+SKINNY  & $15$ & $105$ & $-0.25$ & $-0.25$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Reproducibility checklist}\label{subsec:repro-checklist}
+
+The computational claims in this section can be checked as follows:
+\begin{enumerate}[label=\normalfont(\roman*)]
+  \item \texttt{gen\_figures.py} regenerates the Walsh-spectrum and
+  key-separation figures in the project \texttt{figures/} directory.
+  \item \texttt{compute\_curvatures.py} computes the active covariance
+  eigenspace and all $105$ curvature values.
+  \item \texttt{verify\_curvature.py} checks the value $K=-1/4$ for PRESENT and
+  for an additional fixed random 4-bit bijection.
+  \item The rank/eigenvalue claim follows independently from
+  Theorem~\ref{thm:active-rank}.
+\end{enumerate}

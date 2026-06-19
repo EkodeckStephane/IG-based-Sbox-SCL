@@ -1,0 +1,71 @@
+% ============================================================================
+% SECTION 8: DISCUSSION
+% ============================================================================
+\section{Discussion}\label{sec:discussion}
+
+\subsection{What the framework establishes}
+
+The framework establishes a controlled information-geometric model for the
+local S-box distributions that appear in side-channel key recovery.  Its first
+role is structural: exact key-induced distributions are singular boundary
+points, while ordinary Fisher--Rao geometry belongs to full-support interiors
+or to the adversary's belief simplex.  This distinction prevents assigning
+non-degenerate Fisher metrics, finite KL divergences, or ordinary geodesics to
+disjoint-support key endpoints.
+
+The second role is algebraic.  Walsh characters give explicit coordinates for
+the boundary orbit, and the key-translation rule determines how expectation
+coordinates move when the key hypothesis changes.  This rule is elementary,
+but it is useful because it gives closed-form covariance and displacement
+expressions.
+
+The third role is security-oriented.  CPA is a Bayesian trajectory on the
+belief simplex.  Under the Gaussian leakage model, pairwise Hamming-weight gaps
+determine expected log-Bayes gains against wrong keys.  The scalar leakage
+variance is therefore a baseline descriptor, whereas pairwise gaps describe
+the discrimination structure relevant to key recovery.
+
+\subsection{What is not claimed}
+
+The paper does not provide a new classification of 4-bit S-boxes.  The
+classification and equivalence theory of small vectorial Boolean functions is
+an established subject.  PRESENT, GIFT, and SKINNY are used as reproducible
+lightweight examples, not as evidence that the proposed spectral quantities
+separate S-boxes with the same Walsh amplitude distribution.
+
+The paper also does not propose a new side-channel attack or countermeasure.
+The CPA model is the standard Gaussian Hamming-weight model.  The contribution
+is the geometric separation of the boundary S-box law from the posterior belief
+law and the identification of which quantities are forced by bijectivity.
+
+\subsection{Cryptographic interpretation}
+
+For isolated bijective 4-bit S-boxes under uniform input and Hamming-weight
+leakage, $I_S(\HW,\sigma)=1/\sigma^2$ for every bijection.  This equality is
+not a ranking criterion for S-boxes.  Practical side-channel behavior depends
+on pairwise leakage gaps, implementation leakage, noise, masking, alignment,
+higher-order effects, and the full cipher context.
+
+The boundary covariance and local Walsh/Fisher separation proxy complement LAT,
+DDT, and empirical leakage evaluation.  They are best understood as coordinate
+diagnostics for the singular key orbit and as inputs to posterior belief
+dynamics, not as replacements for standard cryptanalytic criteria.
+
+\subsection{Status of the curvature finding}
+
+The active-eigenspace value \(K=-1/4\) is reported as a reproducible diagnostic
+under the projection, normalization, and sign conventions specified in
+Section~\ref{sec:curvature}.  The rank and active eigenvalue statement is
+proved for every bijective S-box.  A complete symbolic characterization of the
+curvature diagnostic, including the exact hypotheses under which it is
+constant, remains open.
+
+\subsection{Open problems}\label{subsec:extensions}
+
+Several extensions are natural.  First, the $\varepsilon\downarrow0$ limit of
+regularized Fisher--Rao geometry could be studied using tools from singular
+information geometry.  Second, the active-eigenspace curvature phenomenon
+could be attacked symbolically.  Third, the leakage model could be extended to
+masked, higher-order, non-Gaussian, or profiled settings.  Fourth, full-round
+ciphers would require propagation through linear layers and key schedules,
+which is outside the isolated S-box model considered here.

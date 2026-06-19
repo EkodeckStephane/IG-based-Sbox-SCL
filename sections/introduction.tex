@@ -1,0 +1,192 @@
+% ============================================================================
+% SECTION 1: INTRODUCTION
+% ============================================================================
+\section{Introduction}\label{sec:intro}
+
+\subsection{Motivation}
+
+Side-channel attacks exploit implementation leakage rather than weaknesses in
+the abstract cipher alone.  In many attacks on lightweight block ciphers, the
+local statistical object is a keyed S-box computation: an adversary observes or
+controls an input nibble or byte, measures a noisy leakage trace, and compares
+key hypotheses through predicted intermediate values.  Correlation power
+analysis (CPA) is the standard example: each trace updates the adversary's
+belief about the key using a leakage model such as Hamming weight.
+
+The exact distribution induced by a keyed bijective S-box is not a smooth
+interior point of a probability simplex.  For an $s$-bit bijective S-box
+$S:\{0,1\}^s\to\{0,1\}^s$ and key hypothesis $k\in\{0,1\}^s$, the pair
+$(a,b)$ with uniform $a$ and $b=S(a\oplus k)$ is supported on only $2^s$ points
+of the $2^{2s}$-point input-output space.  Hence $P_k$ is a singular boundary
+distribution.  This matters because ordinary Fisher--Rao tensors, geodesics,
+and dual-flat coordinates are defined on full-support statistical models, not
+directly at support-deficient endpoints.
+
+This paper develops a boundary information-geometric framework for this
+side-channel setting.  The central discipline is to keep separate three
+objects that are often conflated in informal geometric descriptions:
+\begin{enumerate}[label=\normalfont(\roman*)]
+  \item the regular full-support Walsh exponential family, where ordinary
+  Fisher geometry is valid;
+  \item the finite boundary orbit of exact key-induced S-box distributions;
+  \item the adversary's posterior belief simplex over key hypotheses, where
+  CPA updates take place.
+\end{enumerate}
+This separation makes it possible to use information geometry in a controlled
+way: boundary distributions are represented through covariance limits, whereas
+Bayesian key recovery remains a regular trajectory on the belief simplex as
+long as the prior has full support and the leakage likelihood is positive.
+
+\begin{figure}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  node distance=11mm and 12mm,
+  box/.style={
+    draw,
+    rounded corners=1.5pt,
+    align=center,
+    inner sep=5pt,
+    minimum width=34mm,
+    minimum height=11mm
+  },
+  wide/.style={
+    draw,
+    rounded corners=1.5pt,
+    align=center,
+    inner sep=5pt,
+    minimum width=46mm,
+    minimum height=12mm
+  },
+  arr/.style={-{Latex[length=2mm]},thick}
+]
+\node[wide] (sbox) {Keyed S-box law\\$a\mapsto b=S(a\oplus k)$};
+\node[box, below left=of sbox] (boundary) {Boundary orbit\\$\{P_k:k\in\{0,1\}^s\}$};
+\node[box, below=of sbox] (interior) {Regular Walsh\\exponential family};
+\node[box, below right=of sbox] (belief) {Key-belief simplex\\$q_i(k)$};
+\node[wide, below=of interior] (diagnostics) {Security diagnostics\\active Fisher structure, CPA gaps};
+
+\draw[arr] (sbox) -- node[left,align=center] {exact graph\\distribution} (boundary);
+\draw[arr] (sbox) -- node[right,align=center] {leakage\\likelihoods} (belief);
+\draw[arr] (boundary) -- node[above,align=center] {Walsh covariance\\limits} (interior);
+\draw[arr] (interior) -- node[left,align=center] {active\\eigenspace} (diagnostics);
+\draw[arr] (belief) -- node[right,align=center] {Bayesian\\updates} (diagnostics);
+\end{tikzpicture}
+}
+\caption{Boundary-to-belief framework. The exact keyed S-box laws lie on a
+singular boundary orbit, the Fisher calculations are made in a regular Walsh
+exponential family or in boundary covariance limits, and CPA updates evolve on
+the separate key-belief simplex.}
+\label{fig:framework}
+\end{figure}
+
+\subsection{Relation to prior work}
+
+The information-geometric background is the Fisher--Rao and dual-affine
+geometry of finite statistical models and regular exponential families
+\cite{amari2000methods,ay2017information,chentsov1982statistical}.  The
+closest coding-theoretic precedent is the work of Ikeda, Tanaka, and Amari on
+LDPC and turbo codes~\cite{ikeda2004information}: parity-check statistics
+define a regular information-geometric model and decoding trajectories are
+interpreted through projections.  Here, the sufficient statistics are
+Walsh--Hadamard characters on S-box input-output pairs, and the inference
+trajectory is the CPA posterior over key hypotheses.
+
+On the cryptographic side, the work is related to classical Walsh/LAT and DDT
+analysis of vectorial Boolean functions and S-boxes, including Nyberg's
+differential uniformity~\cite{nyberg1994differentially}.  Four-bit S-boxes and
+optimal 4-bit permutations have been classified in the Boolean-function
+literature, notably by Leander and Poschmann~\cite{leander2007classification}.
+The present paper does not propose a new classification of 4-bit S-boxes and
+does not claim that standard S-boxes with the same Walsh spectrum can be
+distinguished by spectral invariants.  Instead, it asks a different question:
+what is the correct information-geometric object associated with exact keyed
+S-box distributions, and how should that object be connected to side-channel
+belief updates?
+
+On the side-channel side, the leakage model and posterior update are consistent
+with differential and correlation power analysis
+\cite{kocher1999differential,brier2004correlation} and with
+information-theoretic analyses of key recovery attacks
+\cite{standaert2009unified,veyrat2009adaptive}.  The present framework is not a
+new attack and not a countermeasure.  It is a formal model for separating
+baseline invariants forced by bijectivity from pairwise leakage gaps that
+control key-hypothesis discrimination.
+
+\subsection{Setting and notation}
+
+Throughout, $s\geq1$ denotes the S-box width in bits,
+$S:\B{s}\to\B{s}$ is a fixed bijection, $k\in\B{s}$ is a key hypothesis, and
+$a\in\B{s}$ is a uniformly distributed plaintext nibble or byte.  All additions
+inside bit strings are over $\F_2$.  The inner product is
+$\alpha\cdot a=\bigoplus_{i=1}^s \alpha_i a_i$.  For
+$(\alpha,\beta)\in\B{s}\times\B{s}$, the Walsh character is
+\[
+  \chi_{\alpha\beta}(a,b)=(-1)^{\alpha\cdot a\oplus\beta\cdot b}.
+\]
+We write $N=2^s$ and $\mathcal X=\B{s}\times\B{s}$.
+
+\subsection{Contributions}\label{subsec:contributions}
+
+\begin{enumerate}[label=\textbf{C\arabic*.}]
+
+\item \textbf{Boundary model for key-induced S-box distributions.}
+We model the exact keyed S-box law
+\[
+  P_k(a,b)=2^{-s}\mathbf 1[b=S(a\oplus k)]
+\]
+as a boundary distribution on the input-output simplex.  The Walsh translation
+rule
+\[
+  \widehat P_k(\alpha,\beta)
+  =(-1)^{\alpha\cdot k}\widehat P_0(\alpha,\beta)
+\]
+is used as a coordinate identity for the finite key orbit, not as a standalone
+cryptanalytic novelty.
+
+\item \textbf{Closed-form boundary covariance and active Fisher structure.}
+We derive the boundary covariance form
+\[
+  \mathcal I^{\partial}_{ij}(k)=\operatorname{Cov}_{P_k}(T_i,T_j)
+\]
+in Walsh coordinates and prove that, for every bijection $S:\B{s}\to\B{s}$,
+this matrix has rank $2^s-1$ and active eigenvalues all equal to $2^s$ in the
+unnormalised Walsh basis.  Thus the active boundary geometry is a structural
+property of bijective S-box graphs, rather than an artefact of the three
+illustrative 4-bit examples.
+
+\item \textbf{Regular interior and belief-simplex geometry.}
+We explicitly separate the regular Walsh exponential family, where the usual
+Amari dual-flat structure and Pythagorean identities apply, from the singular
+boundary orbit.  The adversary's key belief is treated as a separate full-
+support simplex, equipped with its own Fisher--Rao metric.
+
+\item \textbf{CPA as Bayesian belief dynamics with pairwise leakage gaps.}
+Under Gaussian leakage, each CPA trace is represented as a Bayesian update on
+the key-belief simplex.  The Hamming-weight variance
+$s/(4\sigma^2)$ is identified as a baseline forced by bijectivity and uniform
+inputs.  The quantities that distinguish key hypotheses are the pairwise
+separations
+\[
+  \Delta(k,k^*)=\frac1{2^s}\sum_a
+  \bigl(f(S(a\oplus k^*))-f(S(a\oplus k))\bigr)^2,
+\]
+which determine expected log-Bayes gains.
+
+\item \textbf{Reproducible diagnostics on lightweight S-boxes.}
+For PRESENT, GIFT, and SKINNY, we compute Walsh spectra, boundary covariance
+matrices, local spectral separation proxies, pairwise Hamming-weight leakage
+gaps, and the projected active-eigenspace curvature diagnostic.  The examples
+are used to separate invariants forced by bijectivity or by the shared Walsh
+amplitude distribution from quantities that can vary across S-boxes.
+\end{enumerate}
+
+\subsection{Scope}\label{subsec:scope}
+
+The paper focuses on isolated bijective S-boxes under uniform inputs and on an
+additive Gaussian leakage model for CPA belief updates.  It does not address
+complete multi-round cipher security, masking, higher-order leakage,
+non-Gaussian leakage, profiling attacks, or implementation-specific trace
+effects.  Those topics require additional models beyond the boundary
+distribution and belief-update framework developed here.

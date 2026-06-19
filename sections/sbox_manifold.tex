@@ -1,0 +1,201 @@
+% ============================================================================
+% SECTION 3: THE S-BOX STATISTICAL MODEL
+% ============================================================================
+\section{The S-box Statistical Model}\label{sec:manifold}
+
+\subsection{Key-induced boundary distributions}
+
+Fix a bijective S-box $S:\B{s}\to\B{s}$ and let $A$ be uniformly distributed
+over $\B{s}$.  Under key hypothesis $k\in\B{s}$, the observed input-output pair
+is $(A,S(A\oplus k))$.  This induces the following distribution on
+$\mathcal X=\B{s}\times\B{s}$.
+
+\begin{definition}[Key-induced distribution]\label{def:key-dist}
+For $k\in\B{s}$, define
+\begin{equation}\label{eq:pk}
+  P_k(a,b)=2^{-s}\mathbf 1[b=S(a\oplus k)].
+\end{equation}
+The support of $P_k$ is the graph
+$G_k=\{(a,S(a\oplus k)):a\in\B{s}\}$.
+\end{definition}
+
+Each $P_k$ is a boundary point of the simplex $\Delta_{2^{2s}-1}$, because it
+assigns zero mass to $2^{2s}-2^s$ outcomes.  This support deficiency is central:
+ordinary Fisher--Rao tensors of the full simplex are defined on the interior,
+not directly at $P_k$.  We therefore treat $P_k$ as a singular endpoint of an
+interior regularization when differential-geometric operations are needed.
+
+\subsection{Walsh representation and key translation}
+
+\begin{definition}[Walsh coefficient of $P_k$]\label{def:wht-pk}
+For $(\alpha,\beta)\in\B{s}\times\B{s}$, set
+\begin{equation}\label{eq:wht-pk}
+  \widehat P_k(\alpha,\beta)
+  =\sum_{(a,b)\in\mathcal X}\chi_{\alpha\beta}(a,b)P_k(a,b)
+  =2^{-s}\sum_{a\in\B{s}}(-1)^{\alpha\cdot a\oplus\beta\cdot S(a\oplus k)}.
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Walsh key-translation rule]\label{thm:phase-shift}
+For every $k\in\B{s}$ and every $(\alpha,\beta)\in\B{s}\times\B{s}$,
+\begin{equation}\label{eq:phase-shift}
+  \widehat P_k(\alpha,\beta)
+  =(-1)^{\alpha\cdot k}\widehat P_0(\alpha,\beta)
+  =2^{-s}(-1)^{\alpha\cdot k}\widehat S(\alpha,\beta).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Using $a'=a\oplus k$,
+\[
+\widehat P_k(\alpha,\beta)
+=2^{-s}\sum_{a'}(-1)^{\alpha\cdot(a'\oplus k)\oplus\beta\cdot S(a')}
+=2^{-s}(-1)^{\alpha\cdot k}\sum_{a'}(-1)^{\alpha\cdot a'\oplus\beta\cdot S(a')},
+\]
+which is exactly the claimed identity.
+\end{proof}
+
+\begin{remark}[Walsh orbit]
+The key does not change the amplitude $|\widehat S(\alpha,\beta)|$; it only
+changes the sign according to the character $\alpha\mapsto(-1)^{\alpha\cdot k}$.
+Thus $\{P_k:k\in\B{s}\}$ is best described as a finite Walsh-phase orbit, not as
+a smooth manifold.  The rule is a structural translation identity; the
+information-geometric content in the sequel comes from the covariance limit,
+active subspace, and belief-update geometry built on top of this identity.
+\end{remark}
+
+\subsection{The regular Walsh exponential family}
+
+\begin{definition}[Walsh exponential family]\label{def:walsh-exp}
+Let $T_{\alpha\beta}=\chi_{\alpha\beta}$ for
+$(\alpha,\beta)\neq(0,0)$.  The Walsh exponential family on $\mathcal X$ is
+\begin{equation}\label{eq:walsh-exp}
+  p_\theta(a,b)=
+  \exp\!\left(\sum_{(\alpha,\beta)\neq(0,0)}
+  \theta_{\alpha\beta}T_{\alpha\beta}(a,b)-\psi(\theta)\right),
+  \qquad \theta\in\R^{2^{2s}-1}.
+\end{equation}
+\end{definition}
+
+Because the nonconstant Walsh characters together with the constant character
+form an orthogonal basis of all real functions on $\mathcal X$, this is simply
+the full regular exponential family over $\mathcal X$ written in Walsh
+coordinates.  Its image is the interior of the probability simplex.  The
+singular distributions $P_k$ belong to the closure, not to the regular
+parameter space.
+
+\begin{proposition}[Boundary expectation coordinates]\label{prop:eta-coords-boundary}
+For each $k$ and $(\alpha,\beta)\neq(0,0)$,
+\begin{equation}\label{eq:eta-params}
+  \eta^{(k)}_{\alpha\beta}
+  :=\mathbb E_{P_k}[T_{\alpha\beta}]
+  =(-1)^{\alpha\cdot k}2^{-s}\widehat S(\alpha,\beta).
+\end{equation}
+The corresponding natural parameters are not finite; they are obtained only as
+limits of full-support approximations approaching $P_k$.
+\end{proposition}
+
+\begin{proof}
+The first equality is the definition of expectation coordinates and the second
+is Lemma~\ref{thm:phase-shift}.  Since $P_k$ has zeros on $\mathcal X$, no
+finite vector $\theta$ in~\eqref{eq:walsh-exp} can represent it.
+\end{proof}
+
+\subsection{Interior regularization and boundary covariance form}\label{subsec:fim}
+
+Let $U$ denote the uniform distribution on $\mathcal X$.  For
+$\varepsilon\in(0,1)$ define
+\begin{equation}\label{eq:eps-reg}
+  P_k^{\varepsilon}=(1-\varepsilon)P_k+\varepsilon U.
+\end{equation}
+Then $P_k^{\varepsilon}$ has full support and belongs to the regular simplex
+interior.  Fisher--Rao calculations are unambiguous at $P_k^{\varepsilon}$.
+The finite covariance limit as $\varepsilon\downarrow0$ is the following.
+
+\begin{definition}[Boundary Fisher covariance form]\label{def:boundary-fisher}
+The boundary covariance form associated with key $k$ is
+\begin{equation}\label{eq:boundary-fisher}
+  \mathcal I^{\partial}_{ij}(k)=\operatorname{Cov}_{P_k}(T_i,T_j),
+  \qquad i,j\in\B{s}\times\B{s}\setminus\{(0,0)\}.
+\end{equation}
+It is positive semidefinite and generally singular.  We do not call it a
+non-degenerate Fisher metric at $P_k$.
+\end{definition}
+
+\begin{proposition}[Closed form of the boundary covariance]\label{thm:fim}
+For $i=(\alpha,\beta)$ and $j=(\alpha',\beta')$,
+\begin{align}
+  \mathcal I^{\partial}_{ij}(k)
+  &=\operatorname{Cov}_{P_k}(T_{\alpha\beta},T_{\alpha'\beta'})\notag\\
+  &=(-1)^{(\alpha\oplus\alpha')\cdot k}
+  \left(
+  2^{-s}\widehat S(\alpha\oplus\alpha',\beta\oplus\beta')
+  -2^{-2s}\widehat S(\alpha,\beta)\widehat S(\alpha',\beta')
+  \right).\label{eq:fim-full}
+\end{align}
+In particular,
+\begin{equation}\label{eq:fim-diag}
+  \mathcal I^{\partial}_{(\alpha\beta),(\alpha\beta)}(k)
+  =1-\left(2^{-s}\widehat S(\alpha,\beta)\right)^2.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Since $T_iT_j=T_{i\oplus j}$,
+\[
+ \mathbb E_{P_k}[T_iT_j]
+ =\widehat P_k(\alpha\oplus\alpha',\beta\oplus\beta')
+ =(-1)^{(\alpha\oplus\alpha')\cdot k}2^{-s}
+ \widehat S(\alpha\oplus\alpha',\beta\oplus\beta').
+\]
+Subtracting
+$\mathbb E_{P_k}[T_i]\mathbb E_{P_k}[T_j]$ and applying
+Lemma~\ref{thm:phase-shift} gives~\eqref{eq:fim-full}.  The diagonal follows
+from $T_i^2=1$.
+\end{proof}
+
+\begin{lemma}[Key covariance isometry]\label{lem:key-isometry}
+Let $D_k$ be the diagonal sign matrix
+$(D_k)_{(\alpha\beta),(\alpha\beta)}=(-1)^{\alpha\cdot k}$.  Then
+\begin{equation}\label{eq:fim-factor}
+  \mathcal I^{\partial}(k)=D_k\mathcal I^{\partial}(0)D_k.
+\end{equation}
+Thus every spectral invariant of the boundary covariance form is independent of
+the true key.
+\end{lemma}
+
+\begin{proof}
+Equation~\eqref{eq:fim-full} factors exactly into the sign contribution
+$(-1)^{\alpha\cdot k}(-1)^{\alpha'\cdot k}$ times the $k=0$ covariance entry.
+\end{proof}
+
+\begin{remark}[What is metric and what is not]
+For $\varepsilon>0$, the Fisher--Rao metric at $P_k^\varepsilon$ is an ordinary
+Riemannian metric.  At $\varepsilon=0$, only the finite covariance form
+\eqref{eq:boundary-fisher} is used.  Distances or curvatures involving the
+exact $P_k$ are therefore either (i) computed on the belief simplex,
+(ii) computed for $P_k^\varepsilon$ and then studied as limits, or
+(iii) explicitly described as first-order/local covariance approximations.
+\end{remark}
+
+\subsection{First-order spectral separation of key hypotheses}
+
+The exact distributions $P_k$ and $P_{k'}$ have disjoint supports when
+$k\neq k'$, so their KL divergence is infinite.  Nevertheless, the Walsh
+coordinate displacement has a simple closed form:
+\begin{equation}\label{eq:eta-displacement}
+  \eta^{(k')}_{\alpha\beta}-\eta^{(k)}_{\alpha\beta}
+  =\left((-1)^{\alpha\cdot k'}-(-1)^{\alpha\cdot k}\right)2^{-s}\widehat S(\alpha,\beta).
+\end{equation}
+Consequently, only Walsh modes satisfying $\alpha\cdot(k\oplus k')=1$ contribute
+to the spectral separation.  A diagonal local approximation based on the
+boundary covariance form is
+\begin{equation}\label{eq:fr-local}
+  d_{\mathrm{loc}}^2(k,k')
+  =\sum_{\substack{(\alpha,\beta)\neq(0,0):\\
+  \alpha\cdot(k\oplus k')=1}}
+  \frac{4\,2^{-2s}\widehat S(\alpha,\beta)^2}
+  {1-2^{-2s}\widehat S(\alpha,\beta)^2},
+\end{equation}
+provided the denominator is nonzero.  This quantity is a local spectral proxy,
+not the exact Fisher--Rao geodesic distance between the singular distributions.

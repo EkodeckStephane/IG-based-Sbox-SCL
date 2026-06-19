@@ -1,0 +1,27 @@
+% ============================================================================
+% SECTION 9: CONCLUSION
+% ============================================================================
+\section{Conclusion}\label{sec:conclusion}
+
+We presented a boundary information-geometric framework for the local S-box
+distributions that arise in side-channel key recovery.  The main modelling
+point is the separation between three spaces: the regular full-support Walsh
+exponential family, the singular key-induced boundary orbit, and the
+adversary's belief simplex.  This separation makes Fisher, KL, and projection
+statements mathematically well scoped.
+
+For bijective S-boxes, Walsh coordinates give closed-form boundary covariance
+matrices.  The active covariance subspace has dimension $2^s-1$ and all active
+eigenvalues equal $2^s$ in the unnormalised Walsh basis.  Thus this part of the
+geometry is a general structural consequence of bijectivity.
+
+For CPA, Bayesian updates occur on the belief simplex.  Under Hamming-weight
+Gaussian leakage, the scalar variance information is a baseline fixed by
+bijectivity, while pairwise leakage gaps determine expected posterior-odds
+growth against wrong keys.  Computations on PRESENT, GIFT, and SKINNY
+illustrate this distinction and reproduce the active curvature diagnostic
+$K=-1/4$ in the tested 4-bit cases.
+
+The framework is not a new S-box classification and not a standalone attack.
+Its contribution is a controlled geometric language for connecting singular
+S-box distributions, boundary covariance, and side-channel Bayesian inference.
