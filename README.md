@@ -22,7 +22,10 @@ submission to *Cybersecurity*.
   curvature diagnostics.
 - `verify_curvature.py` - sanity-checks the active curvature diagnostic.
 - `main.pdf` - compiled manuscript PDF.
-- `supplementary_material.zip` - compact archive of reproducibility scripts.
+- `supplementary_reproducibility.tex` / `supplementary_reproducibility.pdf` -
+  supplementary document describing the reproducibility protocol.
+- `supplementary_material.zip` - compact archive of reproducibility scripts and
+  Python requirements.
 
 ## Reproducibility
 

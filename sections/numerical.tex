@@ -182,14 +182,10 @@ SKINNY  & $15$ & $105$ & $-0.25$ & $-0.25$ \\
 
 \subsection{Reproducibility checklist}\label{subsec:repro-checklist}
 
-The computational claims in this section can be checked as follows:
-\begin{enumerate}[label=\normalfont(\roman*)]
-  \item \texttt{gen\_figures.py} regenerates the Walsh-spectrum and
-  key-separation figures in the project \texttt{figures/} directory.
-  \item \texttt{compute\_curvatures.py} computes the active covariance
-  eigenspace and all $105$ curvature values.
-  \item \texttt{verify\_curvature.py} checks the value $K=-1/4$ for PRESENT and
-  for an additional fixed random 4-bit bijection.
-  \item The rank/eigenvalue claim follows independently from
-  Theorem~\ref{thm:active-rank}.
-\end{enumerate}
+The computational claims in this section are reproducible from the additional
+files.  The scripts \texttt{gen\_figures.py},
+\texttt{compute\_curvatures.py}, and \texttt{verify\_curvature.py} regenerate
+the figures, active covariance diagnostics, and curvature checks.  The
+rank/eigenvalue statement is proved independently in
+Theorem~\ref{thm:active-rank}; the scripts provide finite checks for the
+reported 4-bit examples.

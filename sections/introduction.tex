@@ -114,6 +114,44 @@ new attack and not a countermeasure.  It is a formal model for separating
 baseline invariants forced by bijectivity from pairwise leakage gaps that
 control key-hypothesis discrimination.
 
+Table~\ref{tab:sota-positioning} summarizes the intended position of the
+framework relative to standard S-box and side-channel criteria.
+
+\begin{table}[t]
+\centering
+\caption{Relation to existing metrics.}
+\label{tab:sota-positioning}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{0.22\textwidth}p{0.34\textwidth}p{0.34\textwidth}@{}}
+\toprule
+Metric or framework & Standard role & Role in this paper \\
+\midrule
+Walsh/LAT spectrum & Measures linear correlations of vectorial Boolean
+functions and supports nonlinearity analysis. & Provides coordinates for the
+key-induced boundary orbit and for closed-form covariance diagnostics. \\
+DDT and differential uniformity & Measures differential propagation and
+classical S-box resistance to differential attacks~\cite{nyberg1994differentially}. &
+Used as part of the surrounding S-box context, but not replaced or re-ranked by
+the proposed geometry. \\
+4-bit S-box classification & Classifies small permutations up to established
+equivalences~\cite{leander2007classification}. & Treated as prior knowledge;
+the paper does not claim a new classification or a new optimality criterion. \\
+CPA and DPA likelihood models & Explain key recovery from noisy implementation
+leakage~\cite{kocher1999differential,brier2004correlation}. & Interpreted as
+Bayesian dynamics on the key-belief simplex with pairwise likelihood gaps. \\
+Mutual information and key-rank measures & Quantify leakage and attack success
+at the experiment or trace-distribution level~\cite{standaert2009unified,veyrat2009adaptive}. &
+Complemented by local structural diagnostics for keyed S-box laws and
+posterior-odds growth. \\
+Information geometry of codes & Studies decoding and projections in regular
+statistical models~\cite{ikeda2004information}. & Adapted to singular S-box
+graph distributions by separating boundary covariance, regular interiors, and
+belief-simplex updates. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Setting and notation}
 
 Throughout, $s\geq1$ denotes the S-box width in bits,
