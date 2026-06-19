@@ -53,7 +53,7 @@
 \bsertitle{Translations of Mathematical Monographs},
 vol. \bseriesno{191}.
 \bpublisher{American Mathematical Society / Oxford University Press},
-  \blocation{???}
+\blocation{Providence, RI / Oxford}
 (\byear{2000}).
 \bcomment{Translated by Daishi Harada}
 \end{bbook}
@@ -68,7 +68,8 @@ vol. \bseriesno{191}.
 \bauthor{\bsnm{Schwachh{\"o}fer}, \binits{L.}}:
 \bbtitle{Information Geometry}.
 \bsertitle{Ergebnisse der Mathematik und ihrer Grenzgebiete}.
-\bpublisher{Springer}, \blocation{???}
+\bpublisher{Springer},
+\blocation{Cham}
 (\byear{2017})
 \end{bbook}
 \endbibitem
@@ -80,7 +81,8 @@ vol. \bseriesno{191}.
 \bbtitle{Statistical Decision Rules and Optimal Inference}.
 \bsertitle{Translations of Mathematical Monographs},
 vol. \bseriesno{53}.
-\bpublisher{American Mathematical Society}, \blocation{???}
+\bpublisher{American Mathematical Society},
+\blocation{Providence, RI}
 (\byear{1982})
 \end{bbook}
 \endbibitem
@@ -102,15 +104,18 @@ vol. \bseriesno{53}.
 
 %%% 5
 \bibitem[\protect\citeauthoryear{Nyberg}{1994}]{nyberg1994differentially}
-\begin{barticle}
+\begin{bchapter}
 \bauthor{\bsnm{Nyberg}, \binits{K.}}:
-\batitle{Differentially uniform mappings for cryptography}.
-\bjtitle{Advances in Cryptology -- EUROCRYPT 1993}
-\bvolume{765},
-\bfpage{55}--\blpage{64}
-(\byear{1994})
+\bctitle{Differentially uniform mappings for cryptography}.
+In: \bbtitle{Advances in Cryptology -- EUROCRYPT 1993}.
+\bsertitle{Lecture Notes in Computer Science},
+vol. \bseriesno{765},
+pp. \bfpage{55}--\blpage{64}.
+\bpublisher{Springer},
+\blocation{Berlin, Heidelberg}
+(\byear{1994}).
 \doiurl{10.1007/3-540-48285-7_6}
-\end{barticle}
+\end{bchapter}
 \endbibitem
 
 %%% 6
@@ -124,7 +129,8 @@ In: \bbtitle{Arithmetic of Finite Fields -- WAIFI 2007}.
 \bsertitle{Lecture Notes in Computer Science},
 vol. \bseriesno{4547},
 pp. \bfpage{159}--\blpage{176}.
-\bpublisher{Springer}, \blocation{???}
+\bpublisher{Springer},
+\blocation{Berlin, Heidelberg}
 (\byear{2007}).
 \doiurl{10.1007/978-3-540-73074-3_13}
 \end{bchapter}
@@ -141,7 +147,8 @@ In: \bbtitle{Advances in Cryptology -- CRYPTO 1999}.
 \bsertitle{Lecture Notes in Computer Science},
 vol. \bseriesno{1666},
 pp. \bfpage{388}--\blpage{397}.
-\bpublisher{Springer}, \blocation{???}
+\bpublisher{Springer},
+\blocation{Berlin, Heidelberg}
 (\byear{1999}).
 \doiurl{10.1007/3-540-48405-1_25}
 \end{bchapter}
@@ -158,7 +165,8 @@ In: \bbtitle{Cryptographic Hardware and Embedded Systems -- CHES 2004}.
 \bsertitle{Lecture Notes in Computer Science},
 vol. \bseriesno{3156},
 pp. \bfpage{16}--\blpage{29}.
-\bpublisher{Springer}, \blocation{???}
+\bpublisher{Springer},
+\blocation{Berlin, Heidelberg}
 (\byear{2004}).
 \doiurl{10.1007/978-3-540-28632-5_2}
 \end{bchapter}
@@ -176,7 +184,8 @@ In: \bbtitle{Advances in Cryptology -- EUROCRYPT 2009}.
 \bsertitle{Lecture Notes in Computer Science},
 vol. \bseriesno{5479},
 pp. \bfpage{443}--\blpage{461}.
-\bpublisher{Springer}, \blocation{???}
+\bpublisher{Springer},
+\blocation{Berlin, Heidelberg}
 (\byear{2009}).
 \doiurl{10.1007/978-3-642-01001-9_26}
 \end{bchapter}
@@ -193,7 +202,8 @@ In: \bbtitle{Cryptographic Hardware and Embedded Systems -- CHES 2009}.
 \bsertitle{Lecture Notes in Computer Science},
 vol. \bseriesno{5747},
 pp. \bfpage{429}--\blpage{443}.
-\bpublisher{Springer}, \blocation{???}
+\bpublisher{Springer},
+\blocation{Berlin, Heidelberg}
 (\byear{2009}).
 \doiurl{10.1007/978-3-642-04138-9_30}
 \end{bchapter}
