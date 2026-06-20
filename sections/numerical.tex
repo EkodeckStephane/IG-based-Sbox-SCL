@@ -160,6 +160,40 @@ but the worst and best key-difference cases vary.  These pairwise gaps are the
 quantities that enter expected posterior-odds growth in the Gaussian leakage
 model.
 
+\begin{table}[t]
+\centering
+\caption{Operational CPA interpretation of the pairwise gaps.  The listed
+deltas are nonzero key differences $\delta=k\oplus k^*$ in hexadecimal.}
+\label{tab:gap-distribution}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{@{}p{0.13\textwidth}p{0.17\textwidth}p{0.17\textwidth}p{0.43\textwidth}@{}}
+\toprule
+S-box & Hardest gaps $\min\Delta$ & Easiest gaps $\max\Delta$ &
+Gap multiset over $\delta\neq0$ \\
+\midrule
+PRESENT & $1$ at $\{A,E\}$ & $7/2$ at $\{6\}$ &
+$1^2$; $(5/4)^1$; $(3/2)^2$; $(7/4)^3$; $(5/2)^2$;
+$(11/4)^1$; $3^2$; $(13/4)^1$; $(7/2)^1$ \\
+GIFT & $5/4$ at $\{C,E,F\}$ & $7/2$ at $\{7\}$ &
+$(5/4)^3$; $(3/2)^2$; $2^2$; $(9/4)^3$; $(5/2)^2$;
+$3^2$; $(7/2)^1$ \\
+SKINNY & $1$ at $\{5\}$ & $3$ at $\{B\}$ &
+$1^1$; $(5/4)^1$; $(3/2)^1$; $(7/4)^1$; $2^3$;
+$(9/4)^2$; $(5/2)^3$; $(11/4)^2$; $3^1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:gap-distribution} is the part of the experiment that is most
+directly relevant to CPA.  PRESENT and SKINNY have a smaller hardest-key gap
+than GIFT under this leakage model, so the model-based estimate
+\eqref{eq:gap-sample-estimate} predicts a larger number of traces to obtain
+the same expected odds margin against the hardest wrong key.  This observation
+does not imply a full-cipher security ordering, but it shows why the proposed
+separation between scalar invariants and pairwise discrimination structure is
+necessary.
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.74\textwidth]{fig4_per_trace_info.pdf}

@@ -25,6 +25,14 @@ determine expected log-Bayes gains against wrong keys.  The scalar leakage
 variance is therefore a baseline descriptor, whereas pairwise gaps describe
 the discrimination structure relevant to key recovery.
 
+This gives a concrete review criterion for the proposed quantities.  A
+diagnostic is useful for side-channel security only if it changes the
+interpretation of posterior-odds growth, hard key differences, or the validity
+of a geometric approximation.  The numerical section therefore does not stop
+at showing that PRESENT, GIFT, and SKINNY share Walsh-amplitude invariants; it
+also reports the pairwise gap distributions that determine which wrong keys
+are hardest to eliminate under the stated CPA model.
+
 \subsection{What is not claimed}
 
 The paper does not provide a new classification of 4-bit S-boxes.  The
@@ -45,6 +53,13 @@ leakage, $I_S(\HW,\sigma)=1/\sigma^2$ for every bijection.  This equality is
 not a ranking criterion for S-boxes.  Practical side-channel behavior depends
 on pairwise leakage gaps, implementation leakage, noise, masking, alignment,
 higher-order effects, and the full cipher context.
+
+In this sense, identical Walsh-amplitude histograms are a useful negative
+control rather than a failure of the method.  They show that amplitude-only
+Walsh diagnostics cannot distinguish the three tested S-boxes, while the CPA
+gap distribution still exposes model-dependent hard and easy key differences.
+This is precisely the separation required before using information-geometric
+language in a cybersecurity setting.
 
 The boundary covariance and local Walsh/Fisher separation proxy complement LAT,
 DDT, and empirical leakage evaluation.  They are best understood as coordinate

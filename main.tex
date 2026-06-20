@@ -1,4 +1,8 @@
+\ifdefined\withlinenumbers
+\documentclass[referee,lineno,pdflatex,sn-mathphys-num]{sn-jnl}
+\else
 \documentclass[referee,pdflatex,sn-mathphys-num]{sn-jnl}
+\fi
 
 % ============================================================================
 % PACKAGES
@@ -117,9 +121,11 @@ subspace has dimension $2^s-1$ and active eigenvalues equal $2^s$ in the
 unnormalised Walsh basis.  We then interpret correlation power analysis under
 Gaussian leakage as Bayesian dynamics on the key-belief simplex.  The
 Hamming-weight variance $s/(4\sigma^2)$ is a bijectivity-driven baseline,
-whereas pairwise likelihood gaps determine key-hypothesis discrimination.
-Reproducible computations for PRESENT, GIFT, and SKINNY illustrate invariants,
-pairwise leakage gaps, and the projected active-curvature diagnostic.
+whereas pairwise likelihood gaps determine key-hypothesis discrimination and
+worst-case posterior-odds growth.  Reproducible computations for PRESENT,
+GIFT, and SKINNY show that S-boxes with the same Walsh-amplitude distribution
+can still have different hard and easy key differences under Hamming-weight
+CPA, while sharing the boundary covariance invariants forced by bijectivity.
 }
 
 \keywords{cybersecurity, side-channel analysis, correlation power analysis,

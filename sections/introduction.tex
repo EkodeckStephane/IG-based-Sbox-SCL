@@ -37,6 +37,17 @@ way: boundary distributions are represented through covariance limits, whereas
 Bayesian key recovery remains a regular trajectory on the belief simplex as
 long as the prior has full support and the leakage likelihood is positive.
 
+For cybersecurity and hardware-security evaluation, the practical output of
+this separation is not a new S-box ranking by a single scalar.  It is a
+diagnostic workflow for identifying which quantities are unavoidable
+consequences of bijectivity, which quantities are artefacts of the chosen
+Walsh coordinates, and which quantities actually affect CPA discrimination.
+In particular, for Hamming-weight leakage the scalar variance is identical for
+all bijective S-boxes of the same width, but the pairwise gaps between key
+hypotheses need not be identical.  Those gaps determine the expected
+posterior-odds growth against wrong keys and therefore identify the key
+differences that are locally hardest or easiest for a CPA adversary to reject.
+
 \begin{figure}[t]
 \centering
 \resizebox{\textwidth}{!}{%
@@ -220,7 +231,10 @@ For PRESENT, GIFT, and SKINNY, we compute Walsh spectra, boundary covariance
 matrices, local spectral separation proxies, pairwise Hamming-weight leakage
 gaps, and the projected active-eigenspace curvature diagnostic.  The examples
 are used to separate invariants forced by bijectivity or by the shared Walsh
-amplitude distribution from quantities that can vary across S-boxes.
+amplitude distribution from quantities that can vary across S-boxes.  The
+pairwise-gap tables identify the hard key differences under the assumed CPA
+model, which is the security-relevant information hidden by scalar
+amplitude-only summaries.
 \end{enumerate}
 
 \subsection{Scope}\label{subsec:scope}

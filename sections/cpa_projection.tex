@@ -112,4 +112,13 @@ A first‑order information estimate then yields
 For 4‑bit Hamming‑weight leakage, $n_{\mathrm{est}}\approx 4\log2\,\sigma^2$.
 This is a heuristic leakage‑rate estimate.  A more rigorous bound follows from
 the pairwise gap $\Gamma_S(f,\sigma)$: the expected log‑posterior odds against
-any fixed wrong key grow at rate at least $\Gamma_S(f,\sigma)$.
+any fixed wrong key grow at rate at least $\Gamma_S(f,\sigma)$.  Thus reaching
+an expected odds margin $\tau$ against the hardest wrong key requires roughly
+\begin{equation}\label{eq:gap-sample-estimate}
+  n_{\mathrm{gap}}(\tau)
+  \approx \frac{\tau}{\Gamma_S(f,\sigma)}
+  = \frac{2\sigma^2\tau}{\min_{k\neq k^*}\Delta(k,k^*)}.
+\end{equation}
+This estimate is model-based rather than an attack-success theorem, but it is
+operational: two S-boxes with the same scalar $I_S$ can lead to different
+worst-case posterior-odds growth if their minimum pairwise gaps differ.

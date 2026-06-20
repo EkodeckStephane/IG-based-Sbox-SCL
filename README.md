@@ -11,7 +11,10 @@ submission to *Cybersecurity*.
 
 ## Contents
 
-- `main.tex` - main LaTeX manuscript.
+- `main.tex` - main LaTeX manuscript; by default it builds a clean reading
+  PDF without line numbers.
+- `main_review.tex` - Springer review build that enables line numbering while
+  reusing the same manuscript source.
 - `sections/` and `appendices/` - manuscript source sections.
 - `references.bib` - bibliography database.
 - `sn-jnl.cls` and `sn-mathphys-num.bst` - Springer Nature LaTeX class and
@@ -21,7 +24,8 @@ submission to *Cybersecurity*.
 - `compute_curvatures.py` - computes active covariance eigenspaces and
   curvature diagnostics.
 - `verify_curvature.py` - sanity-checks the active curvature diagnostic.
-- `main.pdf` - compiled manuscript PDF.
+- `main.pdf` - compiled clean manuscript PDF.
+- `main_review.pdf` - compiled review/submission PDF with line numbering.
 - `supplementary_reproducibility.tex` / `supplementary_reproducibility.pdf` -
   supplementary document describing the reproducibility protocol.
 - `supplementary_material.zip` - compact archive of reproducibility scripts and
@@ -50,6 +54,15 @@ pdflatex -interaction=nonstopmode main.tex
 bibtex main
 pdflatex -interaction=nonstopmode main.tex
 pdflatex -interaction=nonstopmode main.tex
+```
+
+Compile the review/submission PDF with line numbering:
+
+```bash
+pdflatex -interaction=nonstopmode main_review.tex
+bibtex main_review
+pdflatex -interaction=nonstopmode main_review.tex
+pdflatex -interaction=nonstopmode main_review.tex
 ```
 
 ## Notes
