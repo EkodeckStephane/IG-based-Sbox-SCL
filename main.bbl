@@ -1,6 +1,6 @@
 %% BioMed_Central_Bib_Style_v1.01
 
-\begin{thebibliography}{10}
+\begin{thebibliography}{15}
 % BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
 \ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
 \ifx \binits  \undefined \def \binits#1{#1}\fi
@@ -137,6 +137,40 @@ pp. \bfpage{159}--\blpage{176}.
 \endbibitem
 
 %%% 7
+\bibitem[\protect\citeauthoryear{Beyne}{2021}]{beyne2021geometric}
+\begin{bchapter}
+\bauthor{\bsnm{Beyne}, \binits{T.}}:
+\bctitle{A geometric approach to linear cryptanalysis}.
+In: \bbtitle{Advances in Cryptology -- ASIACRYPT 2021}.
+\bsertitle{Lecture Notes in Computer Science},
+vol. \bseriesno{13090},
+pp. \bfpage{36}--\blpage{66}.
+\bpublisher{Springer},
+\blocation{Cham}
+(\byear{2021}).
+\doiurl{10.1007/978-3-030-92068-5_2}
+\end{bchapter}
+\endbibitem
+
+%%% 8
+\bibitem[\protect\citeauthoryear{Beyne and
+  Rijmen}{2022}]{beyne2022quasidifferential}
+\begin{bchapter}
+\bauthor{\bsnm{Beyne}, \binits{T.}},
+\bauthor{\bsnm{Rijmen}, \binits{V.}}:
+\bctitle{Differential cryptanalysis in the fixed-key model}.
+In: \bbtitle{Advances in Cryptology -- CRYPTO 2022}.
+\bsertitle{Lecture Notes in Computer Science},
+vol. \bseriesno{13509},
+pp. \bfpage{687}--\blpage{716}.
+\bpublisher{Springer},
+\blocation{Cham}
+(\byear{2022}).
+\doiurl{10.1007/978-3-031-15982-4_23}
+\end{bchapter}
+\endbibitem
+
+%%% 9
 \bibitem[\protect\citeauthoryear{Kocher et~al.}{1999}]{kocher1999differential}
 \begin{bchapter}
 \bauthor{\bsnm{Kocher}, \binits{P.}},
@@ -154,7 +188,7 @@ pp. \bfpage{388}--\blpage{397}.
 \end{bchapter}
 \endbibitem
 
-%%% 8
+%%% 10
 \bibitem[\protect\citeauthoryear{Brier et~al.}{2004}]{brier2004correlation}
 \begin{bchapter}
 \bauthor{\bsnm{Brier}, \binits{E.}},
@@ -172,7 +206,7 @@ pp. \bfpage{16}--\blpage{29}.
 \end{bchapter}
 \endbibitem
 
-%%% 9
+%%% 11
 \bibitem[\protect\citeauthoryear{Standaert et~al.}{2009}]{standaert2009unified}
 \begin{bchapter}
 \bauthor{\bsnm{Standaert}, \binits{F.-X.}},
@@ -191,7 +225,7 @@ pp. \bfpage{443}--\blpage{461}.
 \end{bchapter}
 \endbibitem
 
-%%% 10
+%%% 12
 \bibitem[\protect\citeauthoryear{Veyrat-Charvillon and
   Standaert}{2009}]{veyrat2009adaptive}
 \begin{bchapter}
@@ -206,6 +240,76 @@ pp. \bfpage{429}--\blpage{443}.
 \blocation{Berlin, Heidelberg}
 (\byear{2009}).
 \doiurl{10.1007/978-3-642-04138-9_30}
+\end{bchapter}
+\endbibitem
+
+%%% 13
+\bibitem[\protect\citeauthoryear{Bogdanov et~al.}{2007}]{bogdanov2007present}
+\begin{bchapter}
+\bauthor{\bsnm{Bogdanov}, \binits{A.}},
+\bauthor{\bsnm{Knudsen}, \binits{L.R.}},
+\bauthor{\bsnm{Leander}, \binits{G.}},
+\bauthor{\bsnm{Paar}, \binits{C.}},
+\bauthor{\bsnm{Poschmann}, \binits{A.}},
+\bauthor{\bsnm{Robshaw}, \binits{M.J.B.}},
+\bauthor{\bsnm{Seurin}, \binits{Y.}},
+\bauthor{\bsnm{Vikkelsoe}, \binits{C.}}:
+\bctitle{{PRESENT}: An ultra-lightweight block cipher}.
+In: \bbtitle{Cryptographic Hardware and Embedded Systems -- CHES 2007}.
+\bsertitle{Lecture Notes in Computer Science},
+vol. \bseriesno{4727},
+pp. \bfpage{450}--\blpage{466}.
+\bpublisher{Springer},
+\blocation{Berlin, Heidelberg}
+(\byear{2007}).
+\doiurl{10.1007/978-3-540-74735-2_31}
+\end{bchapter}
+\endbibitem
+
+%%% 14
+\bibitem[\protect\citeauthoryear{Banik et~al.}{2017}]{banik2017gift}
+\begin{bchapter}
+\bauthor{\bsnm{Banik}, \binits{S.}},
+\bauthor{\bsnm{Pandey}, \binits{S.K.}},
+\bauthor{\bsnm{Peyrin}, \binits{T.}},
+\bauthor{\bsnm{Sasaki}, \binits{Y.}},
+\bauthor{\bsnm{Sim}, \binits{S.M.}},
+\bauthor{\bsnm{Todo}, \binits{Y.}}:
+\bctitle{{GIFT}: A small present -- towards reaching the limit of lightweight
+  encryption}.
+In: \bbtitle{Cryptographic Hardware and Embedded Systems -- CHES 2017}.
+\bsertitle{Lecture Notes in Computer Science},
+vol. \bseriesno{10529},
+pp. \bfpage{321}--\blpage{345}.
+\bpublisher{Springer},
+\blocation{Cham}
+(\byear{2017}).
+\doiurl{10.1007/978-3-319-66787-4_16}
+\end{bchapter}
+\endbibitem
+
+%%% 15
+\bibitem[\protect\citeauthoryear{Beierle et~al.}{2016}]{beierle2016skinny}
+\begin{bchapter}
+\bauthor{\bsnm{Beierle}, \binits{C.}},
+\bauthor{\bsnm{Jean}, \binits{J.}},
+\bauthor{\bsnm{K{\"o}lbl}, \binits{S.}},
+\bauthor{\bsnm{Leander}, \binits{G.}},
+\bauthor{\bsnm{Moradi}, \binits{A.}},
+\bauthor{\bsnm{Peyrin}, \binits{T.}},
+\bauthor{\bsnm{Sasaki}, \binits{Y.}},
+\bauthor{\bsnm{Sasdrich}, \binits{P.}},
+\bauthor{\bsnm{Sim}, \binits{S.M.}}:
+\bctitle{The {SKINNY} family of block ciphers and its low-latency variant
+  {MANTIS}}.
+In: \bbtitle{Advances in Cryptology -- CRYPTO 2016}.
+\bsertitle{Lecture Notes in Computer Science},
+vol. \bseriesno{9815},
+pp. \bfpage{123}--\blpage{153}.
+\bpublisher{Springer},
+\blocation{Berlin, Heidelberg}
+(\byear{2016}).
+\doiurl{10.1007/978-3-662-53008-5_5}
 \end{bchapter}
 \endbibitem
 

@@ -12,7 +12,8 @@ between key hypotheses.
 
 \subsection{Target S-boxes}\label{subsec:sboxes}
 
-We evaluate the 4-bit bijective S-boxes used in PRESENT, GIFT, and SKINNY:
+We evaluate the 4-bit bijective S-boxes used in PRESENT, GIFT, and SKINNY
+\cite{bogdanov2007present,banik2017gift,beierle2016skinny}:
 \begin{align*}
 S_{\mathrm{PRESENT}}&=[C,5,6,B,9,0,A,D,3,E,F,8,4,7,1,2],\\
 S_{\mathrm{GIFT}}&=[1,A,4,C,6,F,3,9,2,D,B,7,5,0,8,E],\\
@@ -92,6 +93,16 @@ depends only on the key difference $k\oplus k'$.
 covariance-weighted Walsh displacement between key hypotheses and should be
 read as a local diagnostic, not as an exact distance between singular laws.}
 \label{fig:local-distance}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.74\textwidth]{fig5_fr_vs_hw.pdf}
+\caption{Local proxy versus key-difference Hamming weight.  The plot aggregates
+the same covariance-weighted Walsh displacement by the Hamming weight of
+$k\oplus k'$; it is not an exact Fisher--Rao distance between the singular
+distributions.}
+\label{fig:local-distance-hw}
 \end{figure}
 
 \begin{table}[t]

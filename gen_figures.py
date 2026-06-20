@@ -67,7 +67,7 @@ cb = fig.colorbar(im, ax=axes, shrink=0.7, pad=0.02)
 cb.set_label(r'$\widehat{S}(\alpha,\beta)$')
 fig.suptitle(
     r'Walsh--Hadamard spectra $\widehat{S}(\alpha,\beta)$'
-    '\n(red = +8, white = 0, blue = −8; actual max = 8 for all three)',
+    '\n(nontrivial coefficients lie in [-8,8]; trivial coefficient 16 is clipped)',
     fontsize=10)
 fig.savefig(os.path.join(outdir, 'fig1_wht_spectra.pdf'), bbox_inches='tight')
 plt.close()
@@ -103,7 +103,7 @@ plt.close()
 print("fig2_wht_histogram.pdf saved")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Figure 3: FR distance matrix (first-order approx, all 120 pairs)
+# Figure 3: local Walsh/Fisher proxy matrix (all 120 pairs)
 # ─────────────────────────────────────────────────────────────────────────────
 fig, axes = plt.subplots(1, 3, figsize=(14, 4.5), constrained_layout=True)
 for ax, (name, S) in zip(axes, SBOXES):
@@ -121,9 +121,9 @@ for ax, (name, S) in zip(axes, SBOXES):
     ax.set_ylabel(r"Key $k$" if ax is axes[0] else '')
     ax.set_xticks([0,4,8,12,15]); ax.set_yticks([0,4,8,12,15])
     fig.colorbar(im, ax=ax, shrink=0.85,
-                 label=r"$d_F^2$" if ax is axes[2] else '')
+                 label=r"$d_{\mathrm{loc}}^2$" if ax is axes[2] else '')
 fig.suptitle(
-    r'First-order Fisher--Rao distance$^2$ between key hypotheses'
+    r'Local Walsh/Fisher separation proxy between key hypotheses'
     r' (additive in Hamming weight of $k\oplus k^{\prime}$)',
     fontsize=10)
 fig.savefig(os.path.join(outdir, 'fig3_fr_distance_matrix.pdf'), bbox_inches='tight')
@@ -131,7 +131,7 @@ plt.close()
 print("fig3_fr_distance_matrix.pdf saved")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Figure 4: Per-trace Fisher information vs. SNR
+# Figure 4: per-trace signal information vs. SNR
 # ─────────────────────────────────────────────────────────────────────────────
 fig, ax = plt.subplots(figsize=(7, 4.5))
 snr = np.logspace(-2, 3, 400)
@@ -143,7 +143,7 @@ for (name, S), ls in zip(SBOXES, line_styles):
     ax.loglog(snr, var_hw * snr, ls=ls, lw=2, label=f"{name} (Var$={var_hw:.0f}$)")
 ax.set_xlabel(r'SNR $= 1/\sigma^2$')
 ax.set_ylabel(r'Per-trace information $I_S(\sigma) = \mathrm{Var}[\mathrm{HW}(S)]/\sigma^2$')
-ax.set_title('Per-trace Fisher information (Hamming weight model)')
+ax.set_title('Per-trace signal information (Hamming weight model)')
 ax.legend()
 ax.grid(True, which='both', ls='--', alpha=0.3)
 # Annotate the unity SNR point
@@ -155,7 +155,7 @@ plt.close()
 print("fig4_per_trace_info.pdf saved")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Figure 5: FR^2 vs Hamming weight of key difference
+# Figure 5: local proxy vs Hamming weight of key difference
 # ─────────────────────────────────────────────────────────────────────────────
 fig, ax = plt.subplots(figsize=(6, 4))
 markers = ['o', 's', '^']
@@ -174,8 +174,8 @@ for (name, S), mk in zip(SBOXES, markers):
     ax.plot(hws_list, avgs, mk+'-', lw=1.5, ms=6, label=name)
     ax.fill_between(hws_list, mins, maxs, alpha=0.15)
 ax.set_xlabel(r'Hamming weight of $k \oplus k^{\prime}$')
-ax.set_ylabel(r'First-order $d_F^2(P_k, P_{k^{\prime}})$')
-ax.set_title('Fisher--Rao distance vs. key Hamming distance\n'
+ax.set_ylabel(r'Local proxy $d_{\mathrm{loc}}^2(k,k^{\prime})$')
+ax.set_title('Local Walsh/Fisher proxy vs. key Hamming distance\n'
              r'(mean $\pm$ range over all deltas of given weight)')
 ax.set_xticks([1,2,3,4])
 ax.legend()

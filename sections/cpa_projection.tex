@@ -24,16 +24,19 @@ numerical experiments we take $f = \HW$.
     q_i(k) = \frac{q_{i-1}(k)\,p(W_i\mid a_i,k)}
                  {\sum_{h\in\B{s}} q_{i-1}(h)\,p(W_i\mid a_i,h)}
   \end{equation}
-  is the $m$-projection of the joint prior-likelihood distribution onto the
-  affine constraint defined by the observation, marginalised to the key
-  coordinate.
+  is the key marginal of the regular conditional distribution obtained from
+  the joint prior-likelihood model.  Equivalently, it can be obtained as the
+  limit of $m$-projections after conditioning on shrinking measurement bins
+  around the observed continuous value.
 \end{theorem}
 
 \begin{proof}
   The joint distribution before conditioning is $q_{i-1}(k)p(a_i)p(W_i\mid a_i,k)$.
-  Conditioning on the observed value imposes an affine constraint.  Minimising
-  the Kullback‑Leibler divergence under that constraint yields the conditional
-  distribution, whose key marginal is exactly~\eqref{eq:bayes-update}.
+  Since the Gaussian observation is continuous, the event $W_i=w_i$ has
+  probability zero and conditioning is understood through a regular conditional
+  density, or equivalently as the limit obtained by conditioning on
+  $W_i\in[w_i-\epsilon,w_i+\epsilon]$ and letting $\epsilon\downarrow0$.
+  The limiting conditional law has key marginal exactly~\eqref{eq:bayes-update}.
 \end{proof}
 
 The exact S‑box distributions $P_k$ lie on the boundary of the simplex, but
