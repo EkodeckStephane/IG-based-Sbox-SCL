@@ -21,6 +21,8 @@ submission to *Cybersecurity*.
   bibliography style required for local compilation.
 - `figures/` - generated PDF figures used in the manuscript.
 - `gen_figures.py` - regenerates the Walsh spectra and diagnostic figures.
+- `simulate_cpa.py` - regenerates the Monte Carlo CPA figure and CSV summary.
+- `cpa_simulation_results.csv` - CPA success-probability and key-rank summary.
 - `compute_curvatures.py` - computes active covariance eigenspaces and
   curvature diagnostics.
 - `verify_curvature.py` - sanity-checks the active curvature diagnostic.
@@ -43,6 +45,7 @@ Regenerate the computational outputs:
 
 ```bash
 python gen_figures.py
+python simulate_cpa.py
 python compute_curvatures.py
 python verify_curvature.py
 ```

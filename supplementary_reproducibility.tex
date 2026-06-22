@@ -31,31 +31,37 @@ Belief Dynamics.''  It records the computational protocol used for the
 numerical claims in the manuscript.  The computations are intentionally small
 and exhaustive: for $s=4$, all input values, all key hypotheses, all
 Walsh coordinates, and all active coordinate planes are enumerated.
+The accompanying repository archive is tagged \texttt{v1.0.5}.
 
 \section{Software Environment}
 
 The distributed scripts use Python 3 and standard numerical packages.  The core
-dependencies are \texttt{numpy} for exact finite-array enumeration and linear
-algebra, \texttt{scipy} for symmetric eigenspace computations, and
-\texttt{matplotlib} for figure generation.  No randomized optimization,
-training procedure, or stochastic sampling is used for the reported tables.
-When an additional 4-bit bijection is used in \texttt{verify\_curvature.py},
-the script uses a fixed table explicitly listed in the source code.
+dependencies are \texttt{numpy} for finite-array enumeration, Monte Carlo CPA
+simulation, and linear algebra, \texttt{scipy} for symmetric eigenspace
+computations, and \texttt{matplotlib} for figure generation.  The deterministic
+tables are obtained by exhaustive enumeration.  The CPA validation uses a
+fixed pseudorandom seed, \texttt{20260622}, Gaussian noise standard deviation
+\(\sigma=2\), and \(3000\) trials per S-box.  When an additional 4-bit
+bijection is used in \texttt{verify\_curvature.py}, the script uses a fixed
+table explicitly listed in the source code.
 
 \section{Commands}
 
 The main numerical outputs can be regenerated from the project root with:
 \begin{verbatim}
 python gen_figures.py
+python simulate_cpa.py
 python compute_curvatures.py
 python verify_curvature.py
 \end{verbatim}
 
 \noindent
 The first command regenerates the Walsh-spectrum and local key-separation
-figures.  The second command constructs the boundary covariance matrix,
+figures.  The second command regenerates the CPA Monte Carlo figure and the
+CSV summary of success probabilities and key ranks.  The third command
+constructs the boundary covariance matrix,
 projects onto the active eigenspace, computes the projected third cumulant
-contractions, and evaluates the curvature diagnostic.  The third command is a
+contractions, and evaluates the curvature diagnostic.  The fourth command is a
 sanity check for the value $K=-1/4$ on PRESENT and on an additional fixed
 random bijection.
 
@@ -89,6 +95,7 @@ The computational protocol covers the quantities reported in the paper:
   \item boundary covariance matrices and active ranks/eigenvalues;
   \item local Walsh/Fisher key-separation proxies;
   \item Hamming-weight leakage descriptors and pairwise leakage gaps;
+  \item Monte Carlo CPA success probabilities and true-key ranks;
   \item projected active-eigenspace curvature diagnostics for PRESENT, GIFT,
   and SKINNY.
 \end{enumerate}
@@ -101,8 +108,11 @@ The computational protocol covers the quantities reported in the paper:
 File & Role \\
 \midrule
 \texttt{gen\_figures.py} & Regenerates the manuscript figures. \\
+\texttt{simulate\_cpa.py} & Regenerates CPA simulation figure and CSV results. \\
+\texttt{cpa\_simulation\_results.csv} & Records simulated success probabilities and ranks. \\
 \texttt{compute\_curvatures.py} & Computes active ranks, eigenvalues, and curvature values. \\
 \texttt{verify\_curvature.py} & Performs an independent curvature sanity check. \\
+\texttt{supplementary\_README.md} & Lists commands and expected outputs. \\
 \texttt{requirements.txt} & Lists the Python package dependencies. \\
 \bottomrule
 \end{tabular}

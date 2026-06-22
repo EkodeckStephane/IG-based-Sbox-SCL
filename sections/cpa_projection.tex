@@ -52,7 +52,7 @@ positive.  Hence CPA can be studied as a regular trajectory on $(Q,g_F^{(Q)})$.
     I_S(f,\sigma) = \sigma^{-2}
     \operatorname{Var}_{a\sim\mathrm{Unif}(\B{s})}\bigl[f(S(a\oplus k^*))\bigr].
   \end{equation}
-  When $S$ is bijective, this quantity does not depend on $k^*$.
+  When $S$ is bijective, this quantity is independent of $k^*$.
 \end{definition}
 
 \begin{proposition}[Hamming-weight specialization]\label{thm:per-trace}
@@ -119,6 +119,7 @@ an expected odds margin $\tau$ against the hardest wrong key requires roughly
   \approx \frac{\tau}{\Gamma_S(f,\sigma)}
   = \frac{2\sigma^2\tau}{\min_{k\neq k^*}\Delta(k,k^*)}.
 \end{equation}
-This estimate is model-based rather than an attack-success theorem, but it is
-operational: two S-boxes with the same scalar $I_S$ can lead to different
-worst-case posterior-odds growth if their minimum pairwise gaps differ.
+This model-based estimate links the minimum pairwise gap to a trace budget for
+expected posterior-odds growth. Two S-boxes with the same scalar $I_S$ can lead
+to different worst-case posterior-odds growth when their minimum pairwise gaps
+differ.

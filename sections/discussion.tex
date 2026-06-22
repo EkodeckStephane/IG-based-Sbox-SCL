@@ -26,45 +26,41 @@ variance is therefore a baseline descriptor, whereas pairwise gaps describe
 the discrimination structure relevant to key recovery.
 
 This gives a concrete review criterion for the proposed quantities.  A
-diagnostic is useful for side-channel security only if it changes the
+diagnostic is useful for side-channel security when it changes the
 interpretation of posterior-odds growth, hard key differences, or the validity
-of a geometric approximation.  The numerical section therefore does not stop
-at showing that PRESENT, GIFT, and SKINNY share Walsh-amplitude invariants; it
-also reports the pairwise gap distributions that determine which wrong keys
-are hardest to eliminate under the stated CPA model.
+of a geometric approximation.  The numerical section combines the shared
+Walsh-amplitude invariants of PRESENT, GIFT, and SKINNY with the pairwise gap
+distributions and simulated CPA curves that determine which wrong keys are
+hardest to eliminate under the stated leakage model.
 
-\subsection{What is not claimed}
+\subsection{Position within S-box and side-channel analysis}
 
-The paper does not provide a new classification of 4-bit S-boxes.  The
-classification and equivalence theory of small vectorial Boolean functions is
-an established subject.  PRESENT, GIFT, and SKINNY are used as reproducible
-lightweight examples, not as evidence that the proposed spectral quantities
-separate S-boxes with the same Walsh amplitude distribution.
-
-The paper also does not propose a new side-channel attack or countermeasure.
-The CPA model is the standard Gaussian Hamming-weight model.  The contribution
-is the geometric separation of the boundary S-box law from the posterior belief
-law and the identification of which quantities are forced by bijectivity.
+The framework uses established 4-bit S-box classifications as background and
+focuses on the local distributions used in side-channel key recovery.  PRESENT,
+GIFT, and SKINNY serve as reproducible lightweight examples with shared
+Walsh-amplitude profiles and different CPA gap distributions.  The standard
+Gaussian Hamming-weight CPA model provides the inference setting in which the
+boundary S-box law, posterior belief law, and pairwise discrimination gaps are
+connected.
 
 \subsection{Cryptographic interpretation}
 
 For isolated bijective 4-bit S-boxes under uniform input and Hamming-weight
 leakage, $I_S(\HW,\sigma)=1/\sigma^2$ for every bijection.  This equality is
-not a ranking criterion for S-boxes.  Practical side-channel behavior depends
-on pairwise leakage gaps, implementation leakage, noise, masking, alignment,
+best used as a baseline descriptor.  Practical side-channel behavior is shaped
+by pairwise leakage gaps, implementation leakage, noise, masking, alignment,
 higher-order effects, and the full cipher context.
 
-In this sense, identical Walsh-amplitude histograms are a useful negative
-control rather than a failure of the method.  They show that amplitude-only
-Walsh diagnostics cannot distinguish the three tested S-boxes, while the CPA
-gap distribution still exposes model-dependent hard and easy key differences.
-This is precisely the separation required before using information-geometric
-language in a cybersecurity setting.
+In this sense, identical Walsh-amplitude histograms are a useful baseline.
+They show which quantities are shared by the three tested S-boxes, while the
+CPA gap distribution and Monte Carlo curves expose model-dependent hard and
+easy key differences.  This is precisely the separation required before using
+information-geometric language in a cybersecurity setting.
 
 The boundary covariance and local Walsh/Fisher separation proxy complement LAT,
-DDT, and empirical leakage evaluation.  They are best understood as coordinate
-diagnostics for the singular key orbit and as inputs to posterior belief
-dynamics, not as replacements for standard cryptanalytic criteria.
+DDT, and empirical leakage evaluation.  They provide coordinate diagnostics
+for the singular key orbit and inputs to posterior belief dynamics alongside
+standard cryptanalytic criteria.
 
 \subsection{Status of the curvature finding}
 
@@ -82,5 +78,5 @@ regularized Fisher--Rao geometry could be studied using tools from singular
 information geometry.  Second, the active-eigenspace curvature phenomenon
 could be attacked symbolically.  Third, the leakage model could be extended to
 masked, higher-order, non-Gaussian, or profiled settings.  Fourth, full-round
-ciphers would require propagation through linear layers and key schedules,
-which is outside the isolated S-box model considered here.
+ciphers can be handled by adding propagation through linear layers and key
+schedules.

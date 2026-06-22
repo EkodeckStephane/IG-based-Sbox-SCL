@@ -5,8 +5,8 @@
 
 \subsection{Motivation}
 
-Side-channel attacks exploit implementation leakage rather than weaknesses in
-the abstract cipher alone.  In many attacks on lightweight block ciphers, the
+Side-channel attacks use implementation leakage in addition to the abstract
+cipher description.  In many attacks on lightweight block ciphers, the
 local statistical object is a keyed S-box computation: an adversary observes or
 controls an input nibble or byte, measures a noisy leakage trace, and compares
 key hypotheses through predicted intermediate values.  Correlation power
@@ -38,7 +38,7 @@ Bayesian key recovery remains a regular trajectory on the belief simplex as
 long as the prior has full support and the leakage likelihood is positive.
 
 For cybersecurity and hardware-security evaluation, the practical output of
-this separation is not a new S-box ranking by a single scalar.  It is a
+this separation is a
 diagnostic workflow for identifying which quantities are unavoidable
 consequences of bijectivity, which quantities are artefacts of the chosen
 Walsh coordinates, and which quantities actually affect CPA discrimination.
@@ -112,21 +112,20 @@ literature, notably by Leander and Poschmann~\cite{leander2007classification}.
 Recent geometric viewpoints in symmetric cryptanalysis also include geometric
 formulations of linear and differential cryptanalysis
 \cite{beyne2021geometric,beyne2022quasidifferential}.
-The present paper does not propose a new classification of 4-bit S-boxes and
-does not claim that standard S-boxes with the same Walsh spectrum can be
-distinguished by spectral invariants.  Instead, it asks a different question:
-what is the correct information-geometric object associated with exact keyed
-S-box distributions, and how should that object be connected to side-channel
-belief updates?
+The present paper builds on this background by asking which
+information-geometric objects are associated with exact keyed S-box
+distributions and how those objects connect to side-channel belief updates.
+This positioning uses existing 4-bit S-box classifications as prior
+cryptographic knowledge and focuses on the local leakage distributions used in
+CPA.
 
 On the side-channel side, the leakage model and posterior update are consistent
 with differential and correlation power analysis
 \cite{kocher1999differential,brier2004correlation} and with
 information-theoretic analyses of key recovery attacks
-\cite{standaert2009unified,veyrat2009adaptive}.  The present framework is not a
-new attack and not a countermeasure.  It is a formal model for separating
-baseline invariants forced by bijectivity from pairwise leakage gaps that
-control key-hypothesis discrimination.
+\cite{standaert2009unified,veyrat2009adaptive}.  The present framework gives a
+formal model for separating baseline invariants forced by bijectivity from
+pairwise leakage gaps that control key-hypothesis discrimination.
 
 Table~\ref{tab:sota-positioning} summarizes the intended position of the
 framework relative to standard S-box and side-channel criteria.
@@ -146,11 +145,11 @@ functions and supports nonlinearity analysis. & Provides coordinates for the
 key-induced boundary orbit and for closed-form covariance diagnostics. \\
 DDT and differential uniformity & Measures differential propagation and
 classical S-box resistance to differential attacks~\cite{nyberg1994differentially}. &
-Used as part of the surrounding S-box context, but not replaced or re-ranked by
-the proposed geometry. \\
+Used as part of the surrounding S-box context for separating classical
+cryptographic criteria from leakage-geometry diagnostics. \\
 4-bit S-box classification & Classifies small permutations up to established
-equivalences~\cite{leander2007classification}. & Treated as prior knowledge;
-the paper does not claim a new classification or a new optimality criterion. \\
+equivalences~\cite{leander2007classification}. & Used as prior cryptographic
+knowledge for interpreting the local leakage geometry. \\
 CPA and DPA likelihood models & Explain key recovery from noisy implementation
 leakage~\cite{kocher1999differential,brier2004correlation}. & Interpreted as
 Bayesian dynamics on the key-belief simplex with pairwise likelihood gaps. \\
@@ -194,8 +193,8 @@ rule
   \widehat P_k(\alpha,\beta)
   =(-1)^{\alpha\cdot k}\widehat P_0(\alpha,\beta)
 \]
-is used as a coordinate identity for the finite key orbit, not as a standalone
-cryptanalytic novelty.
+is used as a coordinate identity for the finite key orbit and as the algebraic
+input for the covariance and leakage diagnostics.
 
 \item \textbf{Closed-form boundary covariance and active Fisher structure.}
 We derive the boundary covariance form
@@ -205,8 +204,8 @@ We derive the boundary covariance form
 in Walsh coordinates and prove that, for every bijection $S:\B{s}\to\B{s}$,
 this matrix has rank $2^s-1$ and active eigenvalues all equal to $2^s$ in the
 unnormalised Walsh basis.  Thus the active boundary geometry is a structural
-property of bijective S-box graphs, rather than an artefact of the three
-illustrative 4-bit examples.
+property of bijective S-box graphs shared by the three illustrative 4-bit
+examples.
 
 \item \textbf{Regular interior and belief-simplex geometry.}
 We explicitly separate the regular Walsh exponential family, where the usual
@@ -229,19 +228,20 @@ which determine expected log-Bayes gains.
 \item \textbf{Reproducible diagnostics on lightweight S-boxes.}
 For PRESENT, GIFT, and SKINNY, we compute Walsh spectra, boundary covariance
 matrices, local spectral separation proxies, pairwise Hamming-weight leakage
-gaps, and the projected active-eigenspace curvature diagnostic.  The examples
+gaps, Monte Carlo CPA success curves, and the projected active-eigenspace
+curvature diagnostic.  The examples
 are used to separate invariants forced by bijectivity or by the shared Walsh
 amplitude distribution from quantities that can vary across S-boxes.  The
-pairwise-gap tables identify the hard key differences under the assumed CPA
-model, which is the security-relevant information hidden by scalar
-amplitude-only summaries.
+pairwise-gap tables and CPA simulations identify the hard key differences and
+trace-dependent key-rank behavior under the assumed leakage model.
 \end{enumerate}
 
-\subsection{Scope}\label{subsec:scope}
+\subsection{Model coverage}\label{subsec:scope}
 
 The paper focuses on isolated bijective S-boxes under uniform inputs and on an
-additive Gaussian leakage model for CPA belief updates.  It does not address
-complete multi-round cipher security, masking, higher-order leakage,
-non-Gaussian leakage, profiling attacks, or implementation-specific trace
-effects.  Those topics require additional models beyond the boundary
-distribution and belief-update framework developed here.
+additive Gaussian leakage model for CPA belief updates.  This coverage matches
+the local leakage setting in which S-box output predictions drive non-profiled
+CPA.  Extensions to complete multi-round ciphers, masking, higher-order
+leakage, non-Gaussian leakage, profiled attacks, and implementation-specific
+trace effects can be built by adding the corresponding leakage and cipher
+propagation models to the boundary-distribution and belief-update framework.

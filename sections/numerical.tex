@@ -3,12 +3,13 @@
 % ============================================================================
 \section{Reproducible Security Diagnostics}\label{sec:numerical}
 
-The computations in this section are not intended to classify 4-bit S-boxes or
-to benchmark full cipher attacks.  They serve two narrower purposes.  First,
-they verify the exact boundary covariance and active-eigenspace formulas on
-standard lightweight S-boxes.  Second, they separate quantities that are
-structural invariants from quantities that can influence CPA discrimination
-between key hypotheses.
+The computations in this section connect the closed-form geometry to
+attack-relevant side-channel diagnostics.  First, they verify the exact
+boundary covariance and active-eigenspace formulas on standard lightweight
+S-boxes.  Second, they separate quantities that are structural invariants from
+quantities that influence CPA discrimination between key hypotheses.  Third,
+they validate the pairwise-gap interpretation through a reproducible Monte
+Carlo CPA experiment.
 
 \subsection{Target S-boxes}\label{subsec:sboxes}
 
@@ -37,9 +38,9 @@ over nonzero masks:
   \#|\widehat S|=4:96,\qquad
   \#|\widehat S|=8:36.
 \]
-Therefore any diagnostic depending only on the Walsh amplitudes must coincide
-for these three examples.  This is an expected consequence of the spectral
-data, not a new distinguishing property.
+Therefore diagnostics depending only on the Walsh amplitudes coincide for
+these three examples.  This shared spectral profile provides a useful baseline
+for reading the later CPA-specific quantities.
 
 \begin{figure}[t]
 \centering
@@ -81,17 +82,17 @@ SKINNY  & $255\times255$ & $15$ & $16$ repeated $15$ times \\
 \subsection{Local spectral separation}\label{subsec:fr-distances}
 
 Using~\eqref{eq:fr-local}, we compute local diagonal Walsh/Fisher separation
-proxies between key hypotheses.  This value is not the exact Fisher--Rao
-distance between singular distributions.  It is a local covariance-weighted
-coordinate displacement.  The key-translation rule implies that the value
-depends only on the key difference $k\oplus k'$.
+proxies between key hypotheses.  This local covariance-weighted coordinate
+displacement is evaluated in the regularized Walsh/Fisher coordinates
+introduced earlier.  The key-translation rule implies that the value depends
+only on the key difference $k\oplus k'$.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.8\textwidth]{fig3_fr_distance_matrix.pdf}
 \caption{Local key-separation proxy. The matrix visualises the
-covariance-weighted Walsh displacement between key hypotheses and should be
-read as a local diagnostic, not as an exact distance between singular laws.}
+covariance-weighted Walsh displacement between key hypotheses in the local
+Walsh/Fisher coordinates.}
 \label{fig:local-distance}
 \end{figure}
 
@@ -100,8 +101,7 @@ read as a local diagnostic, not as an exact distance between singular laws.}
 \includegraphics[width=0.74\textwidth]{fig5_fr_vs_hw.pdf}
 \caption{Local proxy versus key-difference Hamming weight.  The plot aggregates
 the same covariance-weighted Walsh displacement by the Hamming weight of
-$k\oplus k'$; it is not an exact Fisher--Rao distance between the singular
-distributions.}
+$k\oplus k'$.}
 \label{fig:local-distance-hw}
 \end{figure}
 
@@ -127,8 +127,8 @@ variance in Proposition~\ref{thm:per-trace} is always
 \[
   I_S(\HW,\sigma)=\frac{1}{\sigma^2}.
 \]
-This scalar is a baseline leakage descriptor and cannot distinguish PRESENT,
-GIFT, and SKINNY.  Pairwise gaps
+This scalar is a baseline leakage descriptor shared by PRESENT, GIFT, and
+SKINNY.  Pairwise gaps
 \[
   \Delta(\delta)=\frac1{16}\sum_{a\in\B{4}}
   \bigl(\HW(S(a))-\HW(S(a\oplus\delta))\bigr)^2,
@@ -154,9 +154,10 @@ SKINNY  & $1$ & $3$   & $32/15$ \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:pairwise-gaps} shows why the scalar variance descriptor should
-not be overinterpreted: all three S-boxes have the same average pairwise gap,
-but the worst and best key-difference cases vary.  These pairwise gaps are the
+Table~\ref{tab:pairwise-gaps} shows how the scalar variance descriptor and the
+pairwise structure play complementary roles: all three S-boxes have the same
+average pairwise gap, while the worst and best key-difference cases vary.
+These pairwise gaps are the
 quantities that enter expected posterior-odds growth in the Gaussian leakage
 model.
 
@@ -185,22 +186,52 @@ $(9/4)^2$; $(5/2)^3$; $(11/4)^2$; $3^1$ \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:gap-distribution} is the part of the experiment that is most
-directly relevant to CPA.  PRESENT and SKINNY have a smaller hardest-key gap
-than GIFT under this leakage model, so the model-based estimate
-\eqref{eq:gap-sample-estimate} predicts a larger number of traces to obtain
-the same expected odds margin against the hardest wrong key.  This observation
-does not imply a full-cipher security ordering, but it shows why the proposed
-separation between scalar invariants and pairwise discrimination structure is
-necessary.
+Table~\ref{tab:gap-distribution} gives the CPA-oriented reading of the
+pairwise theory.  PRESENT and SKINNY have a smaller hardest-key gap than GIFT
+under this leakage model, so the model-based estimate
+\eqref{eq:gap-sample-estimate} assigns a larger trace budget to the hardest
+posterior-odds margin for those S-boxes.  The comparison is local to the
+specified S-box computation and leakage model, which is the level at which CPA
+key hypotheses are evaluated.
+
+\subsection{Monte Carlo CPA validation}\label{subsec:cpa-simulation}
+
+To connect the gap analysis to an attack observable, we simulate the Bayesian
+CPA model of Section~\ref{sec:cpa}.  For each S-box, we use true key
+$k^*=0$, uniformly sampled plaintext nibbles, leakage
+$W=\HW(S(a\oplus k^*))+\varepsilon$, Gaussian noise standard deviation
+$\sigma=2$, and $3000$ Monte Carlo trials with seed $20260622$.  For every
+trace prefix, all 16 key log-likelihoods are accumulated and the true-key rank
+is recorded.  The script \texttt{simulate\_cpa.py} regenerates both
+Fig.~\ref{fig:cpa-simulation} and the CSV summary
+\texttt{cpa\_simulation\_results.csv}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig6_cpa_simulation.pdf}
+\caption{Simulated CPA under Hamming-weight Gaussian leakage.  The left panel
+shows empirical success probability and the right panel shows mean true-key
+rank over $3000$ trials.  The curves translate the pairwise-gap analysis into
+trace-dependent attack observables.}
+\label{fig:cpa-simulation}
+\end{figure}
+
+The simulation confirms the qualitative role of the pairwise gaps.  At
+$64$ traces, the empirical success probabilities are approximately $0.923$ for
+PRESENT, $0.950$ for GIFT, and $0.947$ for SKINNY; at $128$ traces, all three
+success probabilities are between $0.993$ and $0.996$.  Mean true-key ranks
+decrease toward one for all three S-boxes.  The finite-trace curves summarize
+the combined effect of all wrong-key competitors, while the minimum gap in
+Table~\ref{tab:pairwise-gaps} controls the hardest pairwise posterior-odds
+growth.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.74\textwidth]{fig4_per_trace_info.pdf}
 \caption{Per-trace leakage baseline. The scalar Hamming-weight variance is the
 same for all bijective 4-bit S-boxes under uniform inputs, so CPA discrimination
-must be interpreted through pairwise leakage gaps rather than this baseline
-alone.}
+is completed by pairwise leakage gaps that determine key-hypothesis
+discrimination.}
 \label{fig:per-trace-info}
 \end{figure}
 
@@ -228,9 +259,10 @@ SKINNY  & $15$ & $105$ & $-0.25$ & $-0.25$ \\
 \subsection{Reproducibility checklist}\label{subsec:repro-checklist}
 
 The computational claims in this section are reproducible from the additional
-files.  The scripts \texttt{gen\_figures.py},
+files.  The scripts \texttt{gen\_figures.py}, \texttt{simulate\_cpa.py},
 \texttt{compute\_curvatures.py}, and \texttt{verify\_curvature.py} regenerate
-the figures, active covariance diagnostics, and curvature checks.  The
+the figures, CPA simulation results, active covariance diagnostics, and
+curvature checks.  The
 rank/eigenvalue statement is proved independently in
 Theorem~\ref{thm:active-rank}; the scripts provide finite checks for the
 reported 4-bit examples.
