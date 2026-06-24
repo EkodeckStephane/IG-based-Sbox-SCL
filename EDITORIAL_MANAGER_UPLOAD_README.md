@@ -30,15 +30,8 @@ Cybersecurity.
 - `supplementary_reproducibility.tex`
 - `supplementary_material.zip`
 
-## Action required before final approval
+## Final approval
 
-The title page contains placeholders for the complete email addresses of the
-three co-authors because these addresses are not present in the local project
-files:
-
-- Serge Alain Ebele
-- Prosper Rosaire Mama Assandje
-- Rene Ndoundam
-
-Replace each `[email address required before upload]` entry in `title_page.tex`
-before approving the rebuilt submission PDF in Editorial Manager.
+Before approving the rebuilt submission PDF in Editorial Manager, verify that
+the generated PDF includes the title page file, the blinded manuscript file,
+and the supplementary files listed above.
